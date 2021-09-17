@@ -87,6 +87,6 @@
                     TextAlignment="Right" />
             </StackPanel>
         </Border>
-        <ContentControl Grid.Row="1" Content="{Binding ConnectionViewModel}" />
+        <ContentControl Grid.Row="2" Content="{Binding ConnectionViewModel}" />
     </Grid>
 </Window>

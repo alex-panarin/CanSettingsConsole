@@ -6,6 +6,7 @@ namespace CanSettingsConsole.Models
 {
     public class ControllerBase
     {
+        public virtual string Name => nameof(ControllerBase);
         public bool Ready { get; set; }
         public byte Sector { get; set; }
         public int Code { get; set; }

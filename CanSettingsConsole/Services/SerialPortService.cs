@@ -1,37 +1,44 @@
 ﻿using System;
 using System.IO.Ports;
 using System.Text;
+using CanSettingsConsole.Models;
 
 namespace CanSettingsConsole.Services
 {
     public interface ISerialPortService
     {
-        void Open(SerialPort port);
         void Close(SerialPort port);
-        void Write(SerialPort port, byte[] bytes);
-        string Read(SerialPort port);
-
+        ControllerBase GetController(SerialPort port);
     }
     public class SerialPortService : ISerialPortService
     {
-        public void Open(SerialPort port)
-        {
-            port.Open();
-        }
+        private const string getStatusString = "Status";
 
         public void Close(SerialPort port)
         {
+            if (port.IsOpen)
+                port.DataReceived -= Port_DataReceived;
+
             port.Close();
         }
 
-        public void Write(SerialPort port, byte[] bytes)
+        private void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            port.WriteLine(Encoding.ASCII.GetString(bytes));
+            
         }
 
-        public string Read(SerialPort port)
+        public ControllerBase GetController(SerialPort port)
         {
-            return port.ReadLine();
+            if (!port.IsOpen)
+            {
+                port.Open();
+                port.DataReceived += Port_DataReceived;
+            }
+
+            port.WriteLine(getStatusString);
+
+            return new ControllerBase();
         }
+
     }
 }

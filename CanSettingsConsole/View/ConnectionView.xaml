@@ -8,5 +8,16 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Grid />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock Text="{Binding Controller.Name}" />
+            <TextBlock Text="{Binding Controller.Sector}" />
+            <TextBlock Text="{Binding Controller.Code}" />
+        </StackPanel>
+    </Grid>
+
 </UserControl>

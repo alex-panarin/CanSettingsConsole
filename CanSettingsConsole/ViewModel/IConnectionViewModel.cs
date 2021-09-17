@@ -8,7 +8,5 @@ namespace CanSettingsConsole.ViewModel
     {
         bool Open();
         void Close();
-        void Write(byte[] bytes);
-        string Read();
     }
 }

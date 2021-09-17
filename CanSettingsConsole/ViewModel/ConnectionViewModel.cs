@@ -1,6 +1,7 @@
 ﻿using CanSettingsConsole.Core;
 using System;
 using System.IO.Ports;
+using CanSettingsConsole.Models;
 using CanSettingsConsole.Services;
 
 namespace CanSettingsConsole.ViewModel
@@ -8,6 +9,7 @@ namespace CanSettingsConsole.ViewModel
     public class ConnectionViewModel : ViewModelWrapper<SerialPort>, IConnectionViewModel
     {
         private readonly SerialPortService _serialPortService;
+        private ControllerBase _controller;
 
         public ConnectionViewModel(SerialPort model)
             : base(model)
@@ -22,7 +24,7 @@ namespace CanSettingsConsole.ViewModel
         {
             try
             {
-                _serialPortService.Open(Model);
+                Controller = _serialPortService.GetController(Model);
             }
             catch(Exception)
             {
@@ -31,13 +33,16 @@ namespace CanSettingsConsole.ViewModel
 
             return true;
         }
-        public string Read()
+      
+        public ControllerBase Controller
         {
-            throw new NotImplementedException();
+            get => _controller;
+            set
+            {
+                _controller = value;
+                OnPropertyChanged();
+            }
         }
-        public void Write(byte[] bytes)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }
