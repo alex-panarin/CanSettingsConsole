@@ -1,44 +1,66 @@
-﻿using System;
+﻿using CanSettingsConsole.Models;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.IO.Ports;
-using System.Text;
-using CanSettingsConsole.Models;
 
 namespace CanSettingsConsole.Services
 {
     public interface ISerialPortService
     {
         void Close(SerialPort port);
-        ControllerBase GetController(SerialPort port);
+        void Connect(SerialPort port, Action<ControllerBase> callback);
     }
     public class SerialPortService : ISerialPortService
     {
+        private readonly ControllerFactory _controllerFactory;
         private const string getStatusString = "Status";
+        private const int bytesToRead = 8;
 
+        public SerialPortService()
+        {
+            _controllerFactory = new ControllerFactory();
+        }
         public void Close(SerialPort port)
         {
             if (port.IsOpen)
-                port.DataReceived -= Port_DataReceived;
-
-            port.Close();
+                port.Close();
         }
 
-        private void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            
-        }
-
-        public ControllerBase GetController(SerialPort port)
+        public void Connect(SerialPort port, Action<ControllerBase> callback)
         {
             if (!port.IsOpen)
-            {
                 port.Open();
-                port.DataReceived += Port_DataReceived;
-            }
 
             port.WriteLine(getStatusString);
-
-            return new ControllerBase();
+            
+            ReadAsync(port, callback);
         }
+        
+        private void ReadAsync(SerialPort port, [NotNull]Action<ControllerBase> action)
+        {
+            byte[] buffer = new byte[bytesToRead];
+            port.BaseStream.BeginRead(buffer, 0, bytesToRead,  (IAsyncResult ar) =>
+            {
+               try
+               {
+                   var actualLength = port.BaseStream.EndRead(ar);
+                   port.BaseStream.Close();
+                   port.Close();
+                   
+                   byte[] received = new byte[actualLength];
+                   Buffer.BlockCopy(buffer, 0, received, 0, actualLength); 
+                   
+                   action(_controllerFactory.Create(received));
 
+               }
+               catch (IOException)
+               {
+                   throw;
+               }
+            }, null);
+
+
+        }
     }
 }

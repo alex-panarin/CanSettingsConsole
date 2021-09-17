@@ -3,13 +3,14 @@ using System;
 using System.IO.Ports;
 using CanSettingsConsole.Models;
 using CanSettingsConsole.Services;
+using CanSettingsConsole.Wrappers;
 
 namespace CanSettingsConsole.ViewModel
 {
     public class ConnectionViewModel : ViewModelWrapper<SerialPort>, IConnectionViewModel
     {
         private readonly SerialPortService _serialPortService;
-        private ControllerBase _controller;
+        private ControllerWrapper _controller;
 
         public ConnectionViewModel(SerialPort model)
             : base(model)
@@ -24,7 +25,11 @@ namespace CanSettingsConsole.ViewModel
         {
             try
             {
-                Controller = _serialPortService.GetController(Model);
+                _serialPortService.Connect(Model, (ControllerBase c) =>
+                {
+                    Controller = new ControllerWrapper(c);
+                });
+                
             }
             catch(Exception)
             {
@@ -34,7 +39,7 @@ namespace CanSettingsConsole.ViewModel
             return true;
         }
       
-        public ControllerBase Controller
+        public ControllerWrapper Controller
         {
             get => _controller;
             set

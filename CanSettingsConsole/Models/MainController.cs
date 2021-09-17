@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CanSettingsConsole.Models
 {
-    public class MainController
+    public class MainController : ControllerBase
     {
     }
 }
