@@ -18,7 +18,11 @@ namespace CanSettingsConsole.UI.Controls
     /// </summary>
     public partial class IpAddressTextBox : UserControl
     {
-        private static readonly List<Key> DigitKeys = new List<Key> { Key.D0, Key.D1, Key.D2, Key.D3, Key.D4, Key.D5, Key.D6, Key.D7, Key.D8, Key.D9 };
+        private static readonly List<Key> DigitKeys = new List<Key>
+        {
+            Key.D0, Key.D1, Key.D2, Key.D3, Key.D4, Key.D5, Key.D6, Key.D7, Key.D8, Key.D9,
+            Key.NumPad0, Key.NumPad1, Key.NumPad2, Key.NumPad3, Key.NumPad4, Key.NumPad5, Key.NumPad6, Key.NumPad7, Key.NumPad8, Key.NumPad9
+        };
         private static readonly List<Key> MoveForwardKeys = new List<Key> { Key.Right };
         private static readonly List<Key> MoveBackwardKeys = new List<Key> { Key.Left };
         private static readonly List<Key> OtherAllowedKeys = new List<Key> { Key.Tab, Key.Delete };
@@ -109,10 +113,10 @@ namespace CanSettingsConsole.UI.Controls
 
         private void HandleDigitPress()
         {
-            var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
-
-            if (currentTextBox != null && currentTextBox.Text.Length == 3 &&
-                currentTextBox.CaretIndex == 3 && currentTextBox.SelectedText.Length == 0)
+            if (FocusManager.GetFocusedElement(this) is TextBox currentTextBox 
+                && currentTextBox.Text.Length == 3 
+                && currentTextBox.CaretIndex == 3 
+                && currentTextBox.SelectedText.Length == 0)
             {
                 MoveFocusToNextSegment(currentTextBox);
             }
@@ -120,11 +124,10 @@ namespace CanSettingsConsole.UI.Controls
 
         private bool ShouldCancelDigitKeyPress()
         {
-            var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
-            return currentTextBox != null &&
-                   currentTextBox.Text.Length == 3 &&
-                   currentTextBox.CaretIndex == 3 &&
-                   currentTextBox.SelectedText.Length == 0;
+            return FocusManager.GetFocusedElement(this) is TextBox currentTextBox 
+                   && currentTextBox.Text.Length == 3 
+                   && currentTextBox.CaretIndex == 3 
+                   && currentTextBox.SelectedText.Length == 0;
         }
 
         private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -145,8 +148,8 @@ namespace CanSettingsConsole.UI.Controls
 
         private bool ShouldCancelBackwardKeyPress()
         {
-            var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
-            return currentTextBox != null && currentTextBox.CaretIndex == 0;
+            return FocusManager.GetFocusedElement(this) is TextBox currentTextBox 
+                   && currentTextBox.CaretIndex == 0;
         }
 
         private void HandleBackspaceKeyPress()
@@ -161,9 +164,8 @@ namespace CanSettingsConsole.UI.Controls
 
         private void HandleBackwardKeyPress()
         {
-            var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
-
-            if (currentTextBox != null && currentTextBox.CaretIndex == 0)
+            if (FocusManager.GetFocusedElement(this) is TextBox currentTextBox
+                && currentTextBox.CaretIndex == 0)
             {
                 MoveFocusToPreviousSegment(currentTextBox);
             }
@@ -171,15 +173,14 @@ namespace CanSettingsConsole.UI.Controls
 
         private bool ShouldCancelForwardKeyPress()
         {
-            var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
-            return currentTextBox != null && currentTextBox.CaretIndex == 3;
+            return FocusManager.GetFocusedElement(this) is TextBox currentTextBox
+                   && currentTextBox.CaretIndex == 3;
         }
 
         private void HandleForwardKeyPress()
         {
-            var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
-
-            if (currentTextBox != null && currentTextBox.CaretIndex == currentTextBox.Text.Length)
+            if (FocusManager.GetFocusedElement(this) is TextBox currentTextBox 
+                && currentTextBox.CaretIndex == currentTextBox.Text.Length)
             {
                 MoveFocusToNextSegment(currentTextBox);
             }
@@ -187,9 +188,9 @@ namespace CanSettingsConsole.UI.Controls
 
         private void HandlePeriodKeyPress()
         {
-            var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
-
-            if (currentTextBox != null && currentTextBox.Text.Length > 0 && currentTextBox.CaretIndex == currentTextBox.Text.Length)
+            if (FocusManager.GetFocusedElement(this) is TextBox currentTextBox 
+                && currentTextBox.Text.Length > 0 
+                && currentTextBox.CaretIndex == currentTextBox.Text.Length)
             {
                 MoveFocusToNextSegment(currentTextBox);
             }
