@@ -6,5 +6,6 @@ namespace CanSettingsConsole.Models
 {
     public class DisplayController : ControllerBase
     {
+        public override string Name => "Контроллер индикации";
     }
 }

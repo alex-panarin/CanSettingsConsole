@@ -6,5 +6,6 @@ namespace CanSettingsConsole.Models
 {
     public class MainController : ControllerBase
     {
+        public override string Name => "Контроллер главный";
     }
 }

@@ -13,41 +13,45 @@ namespace CanSettingsConsole.Services
     {
         public ControllerBase Create(byte[] bytes)
         {
-            var payload = GetPayload(bytes);
+            var res = Encoding.ASCII.GetString(bytes);
+            return Create(res);
+        }
+        public ControllerBase Create(string result)
+        {
+            var payload = GetPayload(result);
             switch ((ControllerType)payload.Type)
             {
                 case ControllerType.Display:
                     return new DisplayController()
                     {
-                        Sector = (byte)payload.Sector,
-                        Code = (uint)payload.Code,
-                        Status = (byte)payload.Status
+                        Sector = payload.Sector,
+                        Code = payload.Code,
+                        Status = payload.Status
                         
                     };
                 case ControllerType.Main:
                     return new MainController()
                     {
-                        Sector = (byte)payload.Sector,
-                        Code = (uint)payload.Code,
-                        Status = (byte)payload.Status
+                        Sector = payload.Sector,
+                        Code = payload.Code,
+                        Status = payload.Status
                     };
                 case ControllerType.Translate:
                     return new TranslateController()
                     {
-                        Sector = (byte)payload.Sector,
-                        Code = (uint)payload.Code,
-                        Status = (byte)payload.Status,
-                        Level = (byte)payload.Sector
+                        Sector = payload.Sector,
+                        Code = payload.Code,
+                        Status = payload.Status,
+                        Level = payload.Sector
                     };
             }
 
             return null;
         }
 
-        private SerialPortPayload GetPayload(byte[] bytes)
+        private SerialPortMessage GetPayload(string result)
         {
-            var res = Convert.ToUInt64(Encoding.GetEncoding(1251).GetString(bytes));
-            return (SerialPortPayload)res;
+            return SerialPortMessage.FromString(result);
         }
     }
 

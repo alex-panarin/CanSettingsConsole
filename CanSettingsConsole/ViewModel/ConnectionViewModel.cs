@@ -1,5 +1,6 @@
 ﻿using CanSettingsConsole.Core;
 using System;
+using System.Diagnostics;
 using System.IO.Ports;
 using CanSettingsConsole.Models;
 using CanSettingsConsole.Services;
@@ -20,19 +21,19 @@ namespace CanSettingsConsole.ViewModel
         public void Close()
         {
             _serialPortService.Close(Model);
+            Controller = null;
         }
         public bool Open()
         {
             try
             {
-                _serialPortService.Connect(Model, (ControllerBase c) =>
-                {
-                    Controller = new ControllerWrapper(c);
-                });
-                
+                _serialPortService.Connect(Model, (ControllerBase c) => { Controller = new ControllerWrapper(c); });
+
             }
-            catch(Exception)
+            catch(Exception x)
             {
+                Close();
+                Debug.WriteLine(x.Message);
                 return false;
             }
 

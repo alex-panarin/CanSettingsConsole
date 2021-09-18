@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Ports;
+using System.Text;
 
 namespace CanSettingsConsole.Services
 {
@@ -14,8 +15,7 @@ namespace CanSettingsConsole.Services
     public class SerialPortService : ISerialPortService
     {
         private readonly ControllerFactory _controllerFactory;
-        private const string getStatusString = "Status";
-        private const int bytesToRead = 8;
+        private const int bytesToRead = 20;
 
         public SerialPortService()
         {
@@ -30,37 +30,36 @@ namespace CanSettingsConsole.Services
         public void Connect(SerialPort port, Action<ControllerBase> callback)
         {
             if (!port.IsOpen)
+            {
+                port.Handshake = Handshake.None;
+                port.ReadTimeout = 2000;
                 port.Open();
+            }
 
-            port.WriteLine(getStatusString);
+            var bytes = Encoding.ASCII
+                .GetBytes(new SerialPortMessage {Command = (byte) ControllerCommand.Status}
+                    .ToString()
+                    .ToCharArray());
+
+            port.Write(bytes, 0, bytes.Length);
             
-            ReadAsync(port, callback);
+            Read(port, callback);
         }
-        
-        private void ReadAsync(SerialPort port, [NotNull]Action<ControllerBase> action)
+
+        private void Read(SerialPort port, Action<ControllerBase> action)
+        {
+            var strToRead = port.ReadLine();
+
+            action?.Invoke(_controllerFactory.Create(strToRead.TrimStart('\0')));
+        }
+        private async void ReadAsync(SerialPort port, Action<ControllerBase> action)
         {
             byte[] buffer = new byte[bytesToRead];
-            port.BaseStream.BeginRead(buffer, 0, bytesToRead,  (IAsyncResult ar) =>
-            {
-               try
-               {
-                   var actualLength = port.BaseStream.EndRead(ar);
-                   port.BaseStream.Close();
-                   port.Close();
-                   
-                   byte[] received = new byte[actualLength];
-                   Buffer.BlockCopy(buffer, 0, received, 0, actualLength); 
-                   
-                   action(_controllerFactory.Create(received));
 
-               }
-               catch (IOException)
-               {
-                   throw;
-               }
-            }, null);
+            var actualRead = await port.BaseStream.ReadAsync(buffer, 0, bytesToRead);
+            if(actualRead == 0) return;
 
-
+            action?.Invoke( _controllerFactory.Create(buffer));
         }
     }
 }
