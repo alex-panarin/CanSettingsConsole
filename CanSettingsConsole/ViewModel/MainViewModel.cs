@@ -1,8 +1,6 @@
 ﻿using CanSettingsConsole.Core;
 using System;
-using System.Collections.Generic;
 using System.IO.Ports;
-using System.Text;
 using System.Windows.Input;
 
 namespace CanSettingsConsole.ViewModel

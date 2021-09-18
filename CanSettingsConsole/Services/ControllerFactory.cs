@@ -18,42 +18,29 @@ namespace CanSettingsConsole.Services
         }
         public ControllerBase Create(string result)
         {
-            var payload = GetPayload(result);
+            var payload = new SerialPortMessage(result);
             switch ((ControllerType)payload.Type)
             {
                 case ControllerType.Display:
-                    return new DisplayController()
-                    {
-                        Sector = payload.Sector,
-                        Code = payload.Code,
-                        Status = payload.Status
-                        
-                    };
+                    return CreateController<DisplayController>(payload);
                 case ControllerType.Main:
-                    return new MainController()
-                    {
-                        Sector = payload.Sector,
-                        Code = payload.Code,
-                        Status = payload.Status
-                    };
+                    return CreateController<MainController>(payload);
                 case ControllerType.Translate:
-                    return new TranslateController()
-                    {
-                        Sector = payload.Sector,
-                        Code = payload.Code,
-                        Status = payload.Status,
-                        Level = payload.Sector
-                    };
+                    return CreateController<TranslateController>(payload);
             }
 
             return null;
         }
 
-        private SerialPortMessage GetPayload(string result)
+        private T CreateController<T>(SerialPortMessage payload)
+            where T : ControllerBase, new()
         {
-            return SerialPortMessage.FromString(result);
+            return new T
+            {
+                Sector = payload.Sector,
+                Code = payload.Code,
+                Status = payload.Status
+            };
         }
     }
-
-    
 }
