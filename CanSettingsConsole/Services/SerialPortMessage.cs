@@ -33,20 +33,24 @@ namespace CanSettingsConsole.Services
         public byte Sector;
         public uint Code;
 
-        public override string ToString()
+        public SerialPortMessage()
         {
-            return $"{Command}|{Status}|{Type}|{Sector}|{Code}\r";
-        }
 
+        }
         public SerialPortMessage( string res)
         {
             var array = res.Split('|');
+            if(array.Length < 5) return;
 
             Command = Convert.ToByte(array[0]);
             Status = Convert.ToByte(array[1]);
             Type = Convert.ToByte(array[2]);
             Sector = Convert.ToByte(array[3]);
             Code = Convert.ToUInt32(array[4]);
+        }
+        public override string ToString()
+        {
+            return $"{Command}|{Status}|{Type}|{Sector}|{Code}\r";
         }
     }
 }

@@ -23,6 +23,7 @@ namespace CanSettingsConsole.ViewModel
             }
         }
 
-        
+        public bool HasItem => this.Count > 0;
+
     }
 }

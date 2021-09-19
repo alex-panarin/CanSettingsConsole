@@ -19,14 +19,13 @@
             <TextBlock Text="{Binding Controller.Sector}" />
             <TextBlock Text="{Binding Controller.Code}" />
         </StackPanel>
-        <Controls:IpAddressTextBox
-            Grid.Row="1"
-            Width="167"
-            Height="33"
-            Margin="123,56,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top" 
-            Address="127.0.0.1"/>
+        <StackPanel Grid.Row="1">
+            <Controls:IpAddressTextBox
+                Width="260"
+                Height="30"
+                Margin="1"
+                HorizontalAlignment="Left" />
+        </StackPanel>
     </Grid>
 
 </UserControl>
