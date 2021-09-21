@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using CanSettingsConsole.Core;
@@ -16,18 +17,18 @@ namespace CanSettingsConsole.Wrappers
         }
 
         public string Name => Model.Name;
-        public ControllerStatus Status
-        { 
-            get => (ControllerStatus)Model.Status;
-            set { Model.Status = (byte)value; OnPropertyChanged(); }
-        }
+        public ControllerStatus Status => (ControllerStatus)Model.Status;
 
+        [Required]
+        [Range(typeof(byte), "1" , "254", ErrorMessage = "Значение должно содержать только цифры и быть больше 0 и меньше 255")]
         public byte Sector
         {
             get => Model.Sector;
             set { Model.Sector = value; OnPropertyChanged(); }
         }
 
+        [Required]
+        [Range(typeof(uint), "1", "99999999999", ErrorMessage = "Значение должно содержать только цифры и быть больше 0 и меньше 99 999 999 999")]
         public uint Code
         {
             get => Model.Code;

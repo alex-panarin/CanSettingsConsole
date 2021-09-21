@@ -4,13 +4,14 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Ports;
 using System.Text;
+using CanSettingsConsole.Wrappers;
 
 namespace CanSettingsConsole.Services
 {
     public interface ISerialPortService
     {
         void Close(SerialPort port);
-        void Connect(SerialPort port, Action<ControllerBase> callback);
+        void Connect(SerialPort port, Action<ControllerWrapper> callback);
     }
     public class SerialPortService : ISerialPortService
     {
@@ -27,7 +28,7 @@ namespace CanSettingsConsole.Services
                 port.Close();
         }
 
-        public void Connect(SerialPort port, Action<ControllerBase> callback)
+        public void Connect(SerialPort port, Action<ControllerWrapper> callback)
         {
             if (!port.IsOpen)
             {
@@ -37,22 +38,21 @@ namespace CanSettingsConsole.Services
             }
 
             var bytes = Encoding.ASCII
-                .GetBytes(new SerialPortMessage {Command = (byte) ControllerCommand.Status}
-                    .ToString()
-                    .ToCharArray());
+                .GetBytes(new SerialPortMessage {Command = (byte) ControllerCommand.Get}.ToString());
+                    
 
             port.Write(bytes, 0, bytes.Length);
             
             Read(port, callback);
         }
 
-        private void Read(SerialPort port, Action<ControllerBase> action)
+        private void Read(SerialPort port, Action<ControllerWrapper> action)
         {
             var strToRead = port.ReadLine();
 
             action?.Invoke(_controllerFactory.Create(strToRead.TrimStart('\0')));
         }
-        private async void ReadAsync(SerialPort port, Action<ControllerBase> action)
+        private async void ReadAsync(SerialPort port, Action<ControllerWrapper> action)
         {
             byte[] buffer = new byte[bytesToRead];
 

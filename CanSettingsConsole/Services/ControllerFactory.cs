@@ -2,31 +2,32 @@
 using System.Text;
 using System.Windows.Navigation;
 using CanSettingsConsole.Models;
+using CanSettingsConsole.Wrappers;
 
 namespace CanSettingsConsole.Services
 {
     public interface IControllerFactory
     {
-        ControllerBase Create(byte[] bytes);
+        ControllerWrapper Create(byte[] bytes);
     }
     public class ControllerFactory : IControllerFactory
     {
-        public ControllerBase Create(byte[] bytes)
+        public ControllerWrapper Create(byte[] bytes)
         {
             var res = Encoding.ASCII.GetString(bytes);
             return Create(res);
         }
-        public ControllerBase Create(string result)
+        public ControllerWrapper Create(string result)
         {
             var payload = new SerialPortMessage(result);
             switch ((ControllerType)payload.Type)
             {
                 case ControllerType.Display:
-                    return CreateController<DisplayController>(payload);
+                    return new DisplayWrapper(CreateController<DisplayController>(payload));
                 case ControllerType.Main:
-                    return CreateController<MainController>(payload);
+                    return new MainWrapper(CreateController<MainController>(payload));
                 case ControllerType.Translate:
-                    return CreateController<TranslateController>(payload);
+                    return new TranslateWrapper(CreateController<TranslateController>(payload));
             }
 
             return null;
