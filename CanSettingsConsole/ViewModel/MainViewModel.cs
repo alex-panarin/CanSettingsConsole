@@ -15,9 +15,11 @@ namespace CanSettingsConsole.ViewModel
         public MainViewModel()
         {
             ConnectCommand = new WindowCommand(ConnectToPort);
+            CloseCommand = new WindowCommand(CloseConnection);
             ConnectionInfo = outOfConnection;
         }
         public ICommand ConnectCommand { get; }
+        public ICommand CloseCommand { get; }
 
         public string ConnectionInfo
         {
@@ -57,6 +59,12 @@ namespace CanSettingsConsole.ViewModel
 
             if (ConnectionViewModel?.Open() == true)
                 ConnectionInfo = successConnection;
+        }
+
+        private void CloseConnection(object param)
+        {
+            ConnectionViewModel?.Close();
+            ConnectionInfo = outOfConnection;
         }
     }
 }

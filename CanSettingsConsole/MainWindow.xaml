@@ -89,7 +89,7 @@
                     VerticalContentAlignment="Center"
                     Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"
                     BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"
-                    Command="{Binding ConnectCommand}"
+                    Command="{Binding CloseCommand}"
                     CommandParameter="{Binding ElementName=SelectedPorts, Path=SelectedItem}"
                     Content="Закрыть" />
 
