@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Text;
 
 namespace CanSettingsConsole.Services
@@ -13,7 +14,11 @@ namespace CanSettingsConsole.Services
 
     public enum ControllerStatus : byte
     {
+        [Description("Не определен")]
+        None,
+        [Description("Готов к работе")]
         Ready,
+        [Description("Занят, обратитесь позже")]
         Busy
     };
 

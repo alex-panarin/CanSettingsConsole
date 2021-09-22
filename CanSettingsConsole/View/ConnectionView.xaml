@@ -11,24 +11,53 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
+        <ui:EnumConverter x:Key="EnumConverter" />
+        <Style x:Key="TextErrorStyle" TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="BorderBrush" Value="Red" />
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+            <Setter Property="Width" Value="200" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
+
+        <ControlTemplate x:Key="ValidationTemplate">
+            <DockPanel>
+                <TextBlock
+                    DockPanel.Dock="Right"
+                    FontSize="25"
+                    Foreground="Red"
+                    Text="*" />
+                <AdornedElementPlaceholder VerticalAlignment="Center" />
+            </DockPanel>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ErrorTemplate">
+            <DockPanel>
+                <AdornedElementPlaceholder />
+                <TextBlock Foreground="Red" Text="{Binding [0].ErrorContent}" />
+            </DockPanel>
+        </ControlTemplate>
         <DataTemplate x:Key="TraslateViewTemplate">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+            <StackPanel>
                 <TextBlock Text="{Binding Name}" />
-            </Grid>
+                <TextBlock Grid.Row="1" Text="{Binding Status, Converter={StaticResource EnumConverter}}" />
+                <TextBox
+                    Grid.Row="1"
+                    Style="{StaticResource TextErrorStyle}"
+                    Text="{Binding Sector, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                    Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                <TextBox
+                    Grid.Row="2"
+                    Style="{StaticResource TextErrorStyle}"
+                    Text="{Binding Code, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+            </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="MainViewTemplate">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <TextBlock Text="{Binding Name}" />
-            </Grid>
-        </DataTemplate>
-        <DataTemplate x:Key="DisplayViewTemplate">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -48,7 +77,7 @@
             <ContentControl Content="{Binding Controller}">
                 <ContentControl.ContentTemplateSelector>
                     <ui:ConnectionViewTemplateSelector
-                        DisplayDataTemplate="{StaticResource DisplayViewTemplate}"
+                        DisplayDataTemplate="{StaticResource TraslateViewTemplate}"
                         MainDataTemplate="{StaticResource MainViewTemplate}"
                         TranslateDataTemplate="{StaticResource TraslateViewTemplate}" />
                 </ContentControl.ContentTemplateSelector>

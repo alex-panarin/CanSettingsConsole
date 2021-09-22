@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,7 +42,8 @@ namespace CanSettingsConsole.UI.Controls
         }
 
         public static readonly DependencyProperty AddressProperty = DependencyProperty.Register(
-            "Address", typeof(string), typeof(IpAddressTextBox), new FrameworkPropertyMetadata(default(string), AddressChanged)
+            "Address", typeof(string), typeof(IpAddressTextBox), 
+            new FrameworkPropertyMetadata(default(string), AddressChanged)
             {
                 BindsTwoWayByDefault = true
             });
@@ -64,6 +66,7 @@ namespace CanSettingsConsole.UI.Controls
             }
         }
 
+        [DataType(DataType.Custom, ErrorMessage = "Должен содержать только цифры")]
         public string Address
         {
             get { return (string)GetValue(AddressProperty); }
