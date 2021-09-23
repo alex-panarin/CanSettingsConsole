@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -11,15 +12,15 @@ namespace CanSettingsConsole.Core
         {
             Model = model;
         }
-        public TModel Model { get; private set; }
+        public TModel Model { get; }
         protected virtual void SetValue<TValue>(TValue value, [CallerMemberName] string propertyName = null)
         {
-            typeof(TModel).GetProperty(propertyName).SetValue(Model, value);
+            Model?.GetType().GetProperty(propertyName)?.SetValue(Model, value);
             OnPropertyChanged(propertyName);
         }
         protected TValue GetValue<TValue>([CallerMemberName] string propertyName = null)
         {
-            return (TValue)typeof(TModel).GetProperty(propertyName).GetValue(Model);
+            return (TValue)Model?.GetType().GetProperty(propertyName)?.GetValue(Model);
         }
     }
 }

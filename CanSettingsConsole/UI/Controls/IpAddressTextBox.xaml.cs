@@ -65,8 +65,7 @@ namespace CanSettingsConsole.UI.Controls
                 ipTextBox._suppressAddressUpdate = false;
             }
         }
-
-        [DataType(DataType.Custom, ErrorMessage = "Должен содержать только цифры")]
+        
         public string Address
         {
             get { return (string)GetValue(AddressProperty); }

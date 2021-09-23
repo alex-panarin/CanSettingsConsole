@@ -1,47 +1,94 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Dynamic;
 using System.Text;
+using System.Windows.Markup.Localizer;
 using System.Windows.Navigation;
 using CanSettingsConsole.Models;
 using CanSettingsConsole.Wrappers;
 
 namespace CanSettingsConsole.Services
 {
+    public enum ControllerType
+    {
+        None = 0,
+        Main = 1,
+        Translate = 2,
+        Display = 3
+    };
+
+    public enum ControllerStatus : byte
+    {
+        [Description("Не определен")]
+        None,
+        [Description("Готов к работе")]
+        Ready,
+        [Description("Занят, обратитесь позже")]
+        Busy
+    };
+
+    public enum ControllerCommand : byte
+    {
+        None,
+        Status,
+        Get,
+        Set
+    };
     public interface IControllerFactory
     {
-        ControllerWrapper Create(byte[] bytes);
+        ControllerWrapper CreateController(byte[] bytes);
+        string Get { get; }
+        string Post { get; }
+
     }
     public class ControllerFactory : IControllerFactory
     {
-        public ControllerWrapper Create(byte[] bytes)
+      
+        ControllerType Type { get; set; }
+        ControllerCommand Command { get; set; }
+        ControllerBase Controller { get; set; }
+
+        private ControllerWrapper InitializeController(string[] array)
         {
-            var res = Encoding.ASCII.GetString(bytes);
-            return Create(res);
-        }
-        public ControllerWrapper Create(string result)
-        {
-            var payload = new SerialPortMessage(result);
-            switch ((ControllerType)payload.Type)
+            ControllerWrapper wrapper = null;
+
+            switch (this.Type)
             {
-                case ControllerType.Display:
-                    return new DisplayWrapper(CreateController<DisplayController>(payload));
                 case ControllerType.Main:
-                    return new MainWrapper(CreateController<MainController>(payload));
+                    Controller = new MainController();
+                    wrapper = new MainWrapper(Controller);
+                    break;
                 case ControllerType.Translate:
-                    return new TranslateWrapper(CreateController<TranslateController>(payload));
+                    Controller = new TranslateController();
+                    wrapper = new TranslateWrapper(Controller);
+                    break;
+                case ControllerType.Display:
+                    Controller = new DisplayController();
+                    wrapper = new DisplayWrapper(Controller);
+                    break;
             }
 
-            return null;
+            Controller?.Initialize(array);
+            return wrapper;
+        }
+        void FromStringArray(string[] array)
+        {
+            Command = (ControllerCommand) Convert.ToByte(array[0]);
+            Type = (ControllerType) Convert.ToByte(array[1]);
+            InitializeController(array);
         }
 
-        private T CreateController<T>(SerialPortMessage payload)
-            where T : ControllerBase, new()
+        public ControllerWrapper CreateController(byte[] bytes)
         {
-            return new T
-            {
-                Sector = payload.Sector,
-                Code = payload.Code,
-                Status = payload.Status
-            };
+            var result = Encoding.ASCII.GetString(bytes);
+            var array = result.Split('|');
+            FromStringArray(array);
+
+            return InitializeController(array);
         }
+
+        public string Get =>  $"{(byte)ControllerCommand.Get}|{(byte)Type}\r";
+        public string Post => $"{(byte)ControllerCommand.Set}|{Type}|{Controller}\r";
+
     }
 }

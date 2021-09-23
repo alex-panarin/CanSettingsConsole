@@ -16,8 +16,6 @@ namespace CanSettingsConsole.Services
     public class SerialPortService : ISerialPortService
     {
         private readonly ControllerFactory _controllerFactory;
-        private const int bytesToRead = 20;
-
         public SerialPortService()
         {
             _controllerFactory = new ControllerFactory();
@@ -37,10 +35,7 @@ namespace CanSettingsConsole.Services
                 port.Open();
             }
 
-            var bytes = Encoding.ASCII
-                .GetBytes(new SerialPortMessage {Command = (byte) ControllerCommand.Get}.ToString());
-                    
-
+            var bytes = Encoding.ASCII.GetBytes(_controllerFactory.Get);
             port.Write(bytes, 0, bytes.Length);
             
             Read(port, callback);
@@ -50,16 +45,9 @@ namespace CanSettingsConsole.Services
         {
             var strToRead = port.ReadLine();
 
-            action?.Invoke(_controllerFactory.Create(strToRead.TrimStart('\0')));
+            action?.Invoke(_controllerFactory.CreateController(Encoding.ASCII
+                .GetBytes(strToRead.TrimStart('\0'))));
         }
-        private async void ReadAsync(SerialPort port, Action<ControllerWrapper> action)
-        {
-            byte[] buffer = new byte[bytesToRead];
-
-            var actualRead = await port.BaseStream.ReadAsync(buffer, 0, bytesToRead);
-            if(actualRead == 0) return;
-
-            action?.Invoke( _controllerFactory.Create(buffer));
-        }
+       
     }
 }

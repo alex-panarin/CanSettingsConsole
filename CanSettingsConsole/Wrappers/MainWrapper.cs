@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CanSettingsConsole.Models;
+﻿using CanSettingsConsole.Models;
+using System;
+using System.Net;
 
 namespace CanSettingsConsole.Wrappers
 {
@@ -11,9 +10,11 @@ namespace CanSettingsConsole.Wrappers
         {
         }
 
-        public string IpAddress { get => ((MainController)Model).IpAddress; set => SetValue(value); }
-        public string Gateway { get => ((MainController)Model).Gateway; set => SetValue(value); }
-        public string Mask { get => ((MainController)Model).Mask; set => SetValue(value); }
-        public bool UseDHCP { get => ((MainController)Model).UseDHCP; set => SetValue(value); }
+        public string IpAddress { get => new IPAddress(Model.Code).ToString(); set => SetValue(BitConverter.ToUInt32(IPAddress .Parse(value).GetAddressBytes()), "Code"); }
+        public string Dns { get => new IPAddress(((MainController)Model).Dns).ToString(); set => SetValue(BitConverter.ToUInt32(IPAddress.Parse(value).GetAddressBytes())); }
+        public string Gateway { get => new IPAddress(((MainController)Model).Gateway).ToString(); set => SetValue(BitConverter.ToUInt32(IPAddress.Parse(value).GetAddressBytes())); }
+        public string Mask { get => new IPAddress(((MainController)Model).Mask).ToString(); set => SetValue(BitConverter.ToUInt32(IPAddress.Parse(value).GetAddressBytes())); }
+        public bool UseDhcp{ get => ((MainController)Model).UseDhcp; set => SetValue(value); }
+        
     }
 }

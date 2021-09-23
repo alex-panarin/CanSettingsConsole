@@ -21,8 +21,13 @@
             </Style.Triggers>
             <Setter Property="Width" Value="200" />
             <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="1" />
         </Style>
-
+        <Style x:Key="IpAddressStyle" TargetType="{x:Type Controls:IpAddressTextBox}">
+            <Setter Property="Width" Value="200" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="1" />
+        </Style>
         <ControlTemplate x:Key="ValidationTemplate">
             <DockPanel>
                 <TextBlock
@@ -58,12 +63,33 @@
         </DataTemplate>
 
         <DataTemplate x:Key="MainViewTemplate">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+            <StackPanel>
                 <TextBlock Text="{Binding Name}" />
-            </Grid>
+                <TextBlock Text="{Binding Status, Converter={StaticResource EnumConverter}}" />
+                <TextBox
+                    Style="{StaticResource TextErrorStyle}"
+                    Text="{Binding Sector, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                    Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                    <Controls:IpAddressTextBox
+                        Address="{Binding IpAddress, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                        Style="{StaticResource IpAddressStyle}"
+                        Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                    <CheckBox
+                        Margin="1"
+                        VerticalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        IsChecked="{Binding UseDhcp}" />
+                </StackPanel>
+                <Controls:IpAddressTextBox
+                    Address="{Binding Dns, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    Style="{StaticResource IpAddressStyle}"
+                    Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                <Controls:IpAddressTextBox
+                    Address="{Binding Mask, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    Style="{StaticResource IpAddressStyle}"
+                    Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+            </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
     <Border
