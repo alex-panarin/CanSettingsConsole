@@ -18,7 +18,7 @@ namespace CanSettingsConsole.Models
             Dns = Convert.ToUInt32(array[5]);
             Gateway = Convert.ToUInt32(array[6]);
             Mask = Convert.ToUInt32(array[7]);
-            UseDhcp = Convert.ToBoolean(array[8]);
+            UseDhcp = array[8] == "1";
         }
         public override string ToString()
         {
