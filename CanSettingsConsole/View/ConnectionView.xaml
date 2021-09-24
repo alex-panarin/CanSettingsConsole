@@ -86,6 +86,10 @@
                     Style="{StaticResource IpAddressStyle}"
                     Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
                 <Controls:IpAddressTextBox
+                    Address="{Binding Gateway, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    Style="{StaticResource IpAddressStyle}"
+                    Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                <Controls:IpAddressTextBox
                     Address="{Binding Mask, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                     Style="{StaticResource IpAddressStyle}"
                     Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />

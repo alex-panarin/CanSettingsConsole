@@ -43,11 +43,9 @@ namespace CanSettingsConsole.Services
     }
     public class ControllerFactory : IControllerFactory
     {
-      
         ControllerType Type { get; set; }
         ControllerCommand Command { get; set; }
         ControllerBase Controller { get; set; }
-
         private ControllerWrapper InitializeController(string[] array)
         {
             ControllerWrapper wrapper = null;
@@ -77,7 +75,6 @@ namespace CanSettingsConsole.Services
             Type = (ControllerType) Convert.ToByte(array[1]);
             InitializeController(array);
         }
-
         public ControllerWrapper CreateController(byte[] bytes)
         {
             var result = Encoding.ASCII.GetString(bytes);
@@ -86,9 +83,7 @@ namespace CanSettingsConsole.Services
 
             return InitializeController(array);
         }
-
         public string Get =>  $"{(byte)ControllerCommand.Get}|{(byte)Type}\r";
         public string Post => $"{(byte)ControllerCommand.Set}|{Type}|{Controller}\r";
-
     }
 }
