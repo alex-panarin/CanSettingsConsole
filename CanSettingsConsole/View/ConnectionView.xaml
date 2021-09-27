@@ -45,6 +45,22 @@
                 <TextBlock Foreground="Red" Text="{Binding [0].ErrorContent}" />
             </DockPanel>
         </ControlTemplate>
+        <DataTemplate x:Key="DisplayViewTemplate">
+            <StackPanel>
+                <TextBlock Text="{Binding Name}" />
+                <TextBlock Grid.Row="1" Text="{Binding Status, Converter={StaticResource EnumConverter}}" />
+                <TextBox
+                    Grid.Row="1"
+                    Style="{StaticResource TextErrorStyle}"
+                    Text="{Binding Sector, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                    Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                <TextBox
+                    Grid.Row="2"
+                    Style="{StaticResource TextErrorStyle}"
+                    Text="{Binding Code, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+            </StackPanel>
+        </DataTemplate>
         <DataTemplate x:Key="TraslateViewTemplate">
             <StackPanel>
                 <TextBlock Text="{Binding Name}" />
@@ -75,6 +91,10 @@
                         Address="{Binding IpAddress, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                         Style="{StaticResource IpAddressStyle}"
                         Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                    <TextBlock
+                        Margin="1"
+                        VerticalAlignment="Center"
+                        Text="DHCP" />
                     <CheckBox
                         Margin="1"
                         VerticalAlignment="Center"
@@ -107,7 +127,7 @@
             <ContentControl Content="{Binding Controller}">
                 <ContentControl.ContentTemplateSelector>
                     <ui:ConnectionViewTemplateSelector
-                        DisplayDataTemplate="{StaticResource TraslateViewTemplate}"
+                        DisplayDataTemplate="{StaticResource DisplayViewTemplate}"
                         MainDataTemplate="{StaticResource MainViewTemplate}"
                         TranslateDataTemplate="{StaticResource TraslateViewTemplate}" />
                 </ContentControl.ContentTemplateSelector>
