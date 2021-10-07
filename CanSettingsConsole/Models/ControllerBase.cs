@@ -11,10 +11,11 @@ namespace CanSettingsConsole.Models
         public byte Status { get; set; }
         public byte Sector { get; set; }
         public uint Code { get; set; }
-
+        public byte Type { get; private set; }
         public virtual void Initialize(string[] array)
         {
-            if(array.Length < 5) return;
+            Type = Convert.ToByte(array[1]);
+            if (array.Length < 5) return;
             Status = Convert.ToByte(array[2]);
             Sector = Convert.ToByte(array[3]);
             Code = Convert.ToUInt32(array[4]);

@@ -11,7 +11,8 @@ namespace CanSettingsConsole.Services
     public interface ISerialPortService
     {
         void Close(SerialPort port);
-        void Connect(SerialPort port, Action<ControllerWrapper> callback);
+        void Get(SerialPort port, Action<ControllerWrapper> callback);
+        void Post(SerialPort port, ControllerBase controller);
     }
     public class SerialPortService : ISerialPortService
     {
@@ -26,7 +27,7 @@ namespace CanSettingsConsole.Services
                 port.Close();
         }
 
-        public void Connect(SerialPort port, Action<ControllerWrapper> callback)
+        public void Get(SerialPort port, Action<ControllerWrapper> callback)
         {
             if (!port.IsOpen)
             {
@@ -35,10 +36,16 @@ namespace CanSettingsConsole.Services
                 port.Open();
             }
 
-            var bytes = Encoding.ASCII.GetBytes(_controllerFactory.Get);
+            var bytes = Encoding.ASCII.GetBytes(_controllerFactory.Get());
             port.Write(bytes, 0, bytes.Length);
             
             Read(port, callback);
+        }
+
+        public void Post(SerialPort port, ControllerBase controller)
+        {
+            var request = _controllerFactory.Post(controller);
+            port?.WriteLine(request);
         }
 
         private void Read(SerialPort port, Action<ControllerWrapper> action)

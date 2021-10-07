@@ -1,11 +1,8 @@
-﻿using System;
-using System.ComponentModel;
-using System.Dynamic;
-using System.Text;
-using System.Windows.Markup.Localizer;
-using System.Windows.Navigation;
-using CanSettingsConsole.Models;
+﻿using CanSettingsConsole.Models;
 using CanSettingsConsole.Wrappers;
+using System;
+using System.ComponentModel;
+using System.Text;
 
 namespace CanSettingsConsole.Services
 {
@@ -37,53 +34,39 @@ namespace CanSettingsConsole.Services
     public interface IControllerFactory
     {
         ControllerWrapper CreateController(byte[] bytes);
-        string Get { get; }
-        string Post { get; }
+        string Get();
+        string Post(ControllerBase controller);
 
     }
     public class ControllerFactory : IControllerFactory
     {
-        ControllerType Type { get; set; }
-        ControllerCommand Command { get; set; }
-        ControllerBase Controller { get; set; }
-        private ControllerWrapper InitializeController(string[] array)
+        private ControllerWrapper CreateInitializeController(ControllerType type, string[] values)
         {
             ControllerWrapper wrapper = null;
 
-            switch (this.Type)
+            switch (type)
             {
                 case ControllerType.Main:
-                    Controller = new MainController();
-                    wrapper = new MainWrapper(Controller);
+                    wrapper = new MainWrapper(new MainController());
                     break;
                 case ControllerType.Translate:
-                    Controller = new TranslateController();
-                    wrapper = new TranslateWrapper(Controller);
+                    wrapper = new TranslateWrapper(new TranslateController());
                     break;
                 case ControllerType.Display:
-                    Controller = new DisplayController();
-                    wrapper = new DisplayWrapper(Controller);
+                    wrapper = new DisplayWrapper(new DisplayController());
                     break;
             }
-
-            Controller?.Initialize(array);
+            
+            wrapper?.Model?.Initialize(values);
             return wrapper;
-        }
-        void FromStringArray(string[] array)
-        {
-            Command = (ControllerCommand) Convert.ToByte(array[0]);
-            Type = (ControllerType) Convert.ToByte(array[1]);
-            InitializeController(array);
         }
         public ControllerWrapper CreateController(byte[] bytes)
         {
             var result = Encoding.ASCII.GetString(bytes);
-            var array = result.Split('|');
-            FromStringArray(array);
-
-            return InitializeController(array);
+            var values = result.Split('|');
+            return CreateInitializeController((ControllerType)Convert.ToByte(values[1]), values);
         }
-        public string Get =>  $"{(byte)ControllerCommand.Get}|{(byte)Type}\r";
-        public string Post => $"{(byte)ControllerCommand.Set}|{Type}|{Controller}\r";
+        public string Get() =>  $"{(byte)ControllerCommand.Get}|{(byte)ControllerType.None}\r";
+        public string Post(ControllerBase controller) => $"{(byte)ControllerCommand.Set}|{controller.Type}|{controller}\r";
     }
 }

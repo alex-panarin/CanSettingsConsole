@@ -27,7 +27,7 @@ namespace CanSettingsConsole.ViewModel
         {
             try
             {
-                _serialPortService.Connect(Model, (ControllerWrapper c) => { Controller = c; });
+                _serialPortService.Get(Model, (ControllerWrapper c) => { Controller = c; });
 
             }
             catch(Exception x)
@@ -39,7 +39,7 @@ namespace CanSettingsConsole.ViewModel
 
             return true;
         }
-      
+     
         public ControllerWrapper Controller
         {
             get => _controller;
@@ -49,6 +49,13 @@ namespace CanSettingsConsole.ViewModel
                 OnPropertyChanged();
             }
         }
-        
+
+        public WindowCommand SaveCommand => new WindowCommand(OnSave);
+
+        private void OnSave(object obj)
+        {
+            //var controller = (obj as ControllerWrapper)?.Model;
+            _serialPortService.Post(Model, _controller.Model);
+        }
     }
 }
