@@ -54,8 +54,13 @@ namespace CanSettingsConsole.ViewModel
 
         private void OnSave(object obj)
         {
-            //var controller = (obj as ControllerWrapper)?.Model;
             _serialPortService.Post(Model, _controller.Model);
+            //_serialPortService.Read(Model, x =>
+            //{
+            //    if(x == null) return;
+
+            //    Debug.WriteLine(x);
+            //});
         }
     }
 }

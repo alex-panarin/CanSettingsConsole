@@ -22,7 +22,7 @@ namespace CanSettingsConsole.Models
         }
         public override string ToString()
         {
-            return $"{Status}|{Sector}|{Code}|{Dns}|{Gateway}|{Mask}|{UseDhcp}";
+            return $"{Status}|{Sector}|{Code}|{Dns}|{Gateway}|{Mask}|{(UseDhcp ? 1 : 0)}";
         }
     }
 }

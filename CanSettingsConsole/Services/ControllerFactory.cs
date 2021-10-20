@@ -28,8 +28,8 @@ namespace CanSettingsConsole.Services
     {
         None,
         Status,
-        Get,
-        Set
+        Set,
+        Get
     };
     public interface IControllerFactory
     {

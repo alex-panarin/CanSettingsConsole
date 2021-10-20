@@ -45,10 +45,10 @@ namespace CanSettingsConsole.Services
         public void Post(SerialPort port, ControllerBase controller)
         {
             var request = _controllerFactory.Post(controller);
-            port?.WriteLine(request);
+            port?.Write(request);
         }
 
-        private void Read(SerialPort port, Action<ControllerWrapper> action)
+        internal void Read(SerialPort port, Action<ControllerWrapper> action)
         {
             var strToRead = port.ReadLine();
 
