@@ -12,6 +12,13 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ui:EnumConverter x:Key="EnumConverter" />
+        <Style x:Key="SaveButton" TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding HasError}" Value="True">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
         <Style x:Key="TextErrorStyle" TargetType="{x:Type TextBox}">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
@@ -38,7 +45,6 @@
                 <AdornedElementPlaceholder VerticalAlignment="Center" />
             </DockPanel>
         </ControlTemplate>
-
         <ControlTemplate x:Key="ErrorTemplate">
             <DockPanel>
                 <AdornedElementPlaceholder />
@@ -47,72 +53,223 @@
         </ControlTemplate>
         <DataTemplate x:Key="DisplayViewTemplate">
             <StackPanel>
-                <TextBlock Text="{Binding Name}" />
-                <TextBlock Grid.Row="1" Text="{Binding Status, Converter={StaticResource EnumConverter}}" />
-                <TextBox
-                    Grid.Row="1"
-                    Style="{StaticResource TextErrorStyle}"
-                    Text="{Binding Sector, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                    Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
-                <TextBox
-                    Grid.Row="2"
-                    Style="{StaticResource TextErrorStyle}"
-                    Text="{Binding Code, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                    Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Наименование:" />
+                    <TextBlock
+                        Grid.Column="2"
+                        Margin="1,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{Binding Name}" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Статус:" />
+                    <TextBlock Grid.Column="2" Text="{Binding Status, Converter={StaticResource EnumConverter}}" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Участок производства:" />
+                    <TextBox
+                        Grid.Column="2"
+                        Style="{StaticResource TextErrorStyle}"
+                        Text="{Binding Sector, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Код:" />
+                    <TextBox
+                        Grid.Column="2"
+                        Style="{StaticResource TextErrorStyle}"
+                        Text="{Binding Code, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                        Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Яркость:" />
+                    <TextBox
+                        Grid.Column="2"
+                        Style="{StaticResource TextErrorStyle}"
+                        Text="{Binding Brightness, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                        Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                </Grid>
             </StackPanel>
         </DataTemplate>
-        <DataTemplate x:Key="TraslateViewTemplate">
+        <DataTemplate x:Key="TranslateViewTemplate">
             <StackPanel>
-                <TextBlock Text="{Binding Name}" />
-                <TextBlock Grid.Row="1" Text="{Binding Status, Converter={StaticResource EnumConverter}}" />
-                <TextBox
-                    Grid.Row="1"
-                    Style="{StaticResource TextErrorStyle}"
-                    Text="{Binding Sector, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                    Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
-                <TextBox
-                    Grid.Row="2"
-                    Style="{StaticResource TextErrorStyle}"
-                    Text="{Binding Code, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                    Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Наименование:" />
+                    <TextBlock
+                        Grid.Column="2"
+                        Margin="1,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{Binding Name}" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Статус:" />
+                    <TextBlock Grid.Column="2" Text="{Binding Status, Converter={StaticResource EnumConverter}}" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Участок производства:" />
+                    <TextBox
+                        Grid.Column="2"
+                        Style="{StaticResource TextErrorStyle}"
+                        Text="{Binding Sector, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Код:" />
+                    <TextBox
+                        Grid.Column="2"
+                        Style="{StaticResource TextErrorStyle}"
+                        Text="{Binding Code, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                        Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                </Grid>
             </StackPanel>
         </DataTemplate>
-
         <DataTemplate x:Key="MainViewTemplate">
             <StackPanel>
-                <TextBlock Text="{Binding Name}" />
-                <TextBlock Text="{Binding Status, Converter={StaticResource EnumConverter}}" />
-                <TextBox
-                    Style="{StaticResource TextErrorStyle}"
-                    Text="{Binding Sector, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                    Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Наименование:" />
+                    <TextBlock
+                        Grid.Column="2"
+                        Margin="1,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{Binding Name}" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Статус:" />
+                    <TextBlock Grid.Column="2" Text="{Binding Status, Converter={StaticResource EnumConverter}}" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Участок производства:" />
+                    <TextBox
+                        Grid.Column="2"
+                        Style="{StaticResource TextErrorStyle}"
+                        Text="{Binding Sector, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="IP адрес:" />
+                    <StackPanel
+                        Grid.Column="2"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
+                        <Controls:IpAddressTextBox
+                            Address="{Binding IpAddress, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                            Style="{StaticResource IpAddressStyle}"
+                            Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                        <TextBlock
+                            Margin="1"
+                            VerticalAlignment="Center"
+                            Text="DHCP" />
+                        <CheckBox
+                            Margin="1"
+                            VerticalAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            IsChecked="{Binding UseDhcp}" />
+                    </StackPanel>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Dns сервер:" />
                     <Controls:IpAddressTextBox
-                        Address="{Binding IpAddress, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                        Grid.Column="2"
+                        Address="{Binding Dns, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                         Style="{StaticResource IpAddressStyle}"
                         Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
-                    <TextBlock
-                        Margin="1"
-                        VerticalAlignment="Center"
-                        Text="DHCP" />
-                    <CheckBox
-                        Margin="1"
-                        VerticalAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        IsChecked="{Binding UseDhcp}" />
-                </StackPanel>
-                <Controls:IpAddressTextBox
-                    Address="{Binding Dns, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                    Style="{StaticResource IpAddressStyle}"
-                    Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
-                <Controls:IpAddressTextBox
-                    Address="{Binding Gateway, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                    Style="{StaticResource IpAddressStyle}"
-                    Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
-                <Controls:IpAddressTextBox
-                    Address="{Binding Mask, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                    Style="{StaticResource IpAddressStyle}"
-                    Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Шлюз:" />
+                    <Controls:IpAddressTextBox
+                        Grid.Column="2"
+                        Address="{Binding Gateway, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                        Style="{StaticResource IpAddressStyle}"
+                        Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Маска:" />
+                    <Controls:IpAddressTextBox
+                        Grid.Column="2"
+                        Address="{Binding Mask, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                        Style="{StaticResource IpAddressStyle}"
+                        Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                </Grid>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
@@ -120,17 +277,17 @@
         Padding="2"
         BorderBrush="BlueViolet"
         BorderThickness="1">
-        <Grid>
+        <Grid VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <ContentControl VerticalAlignment="Stretch" Content="{Binding Controller}">
                 <ContentControl.ContentTemplateSelector>
                     <ui:ConnectionViewTemplateSelector
                         DisplayDataTemplate="{StaticResource DisplayViewTemplate}"
                         MainDataTemplate="{StaticResource MainViewTemplate}"
-                        TranslateDataTemplate="{StaticResource TraslateViewTemplate}" />
+                        TranslateDataTemplate="{StaticResource TranslateViewTemplate}" />
                 </ContentControl.ContentTemplateSelector>
             </ContentControl>
             <Button
@@ -138,7 +295,8 @@
                 Height="36"
                 VerticalAlignment="Bottom"
                 Command="{Binding SaveCommand}"
-                Content="Сохранить изменения" />
+                Content="Сохранить изменения"
+                Style="{StaticResource SaveButton}" />
         </Grid>
     </Border>
 </UserControl>

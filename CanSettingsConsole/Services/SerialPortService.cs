@@ -51,6 +51,8 @@ namespace CanSettingsConsole.Services
         internal void Read(SerialPort port, Action<ControllerWrapper> action)
         {
             var strToRead = port.ReadLine();
+            while(!strToRead.Contains('|'))
+                strToRead = port.ReadLine();
 
             action?.Invoke(_controllerFactory.CreateController(Encoding.ASCII
                 .GetBytes(strToRead.TrimStart('\0'))));

@@ -11,6 +11,7 @@ namespace CanSettingsConsole.ViewModel
         const string successConnection = "Соединение установлено";
         private string _connectionInfo;
         private IConnectionViewModel _connection;
+        private string _errorMessage;
 
         public MainViewModel()
         {
@@ -57,14 +58,32 @@ namespace CanSettingsConsole.ViewModel
                 ? new ConnectionViewModel(port) 
                 : null;
 
-            if (ConnectionViewModel?.Open() == true)
+            try
+            {
+                ErrorMessage = string.Empty;
+                ConnectionViewModel?.Open();
                 ConnectionInfo = successConnection;
+            }
+            catch (Exception x)
+            {
+                ErrorMessage = x.Message;
+            }
         }
 
         private void CloseConnection(object param)
         {
             ConnectionViewModel?.Close();
             ConnectionInfo = outOfConnection;
+        }
+
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set
+            {
+                _errorMessage = value;
+                OnPropertyChanged();
+            }
         }
     }
 }

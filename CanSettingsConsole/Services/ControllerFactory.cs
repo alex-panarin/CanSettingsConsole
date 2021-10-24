@@ -23,13 +23,15 @@ namespace CanSettingsConsole.Services
         [Description("Занят, обратитесь позже")]
         Busy
     };
-
+    
     public enum ControllerCommand : byte
     {
-        None,
+        Test,
         Status,
         Set,
-        Get
+        Get = 4,
+        None = 5,
+        Clear = 6
     };
     public interface IControllerFactory
     {
@@ -67,6 +69,6 @@ namespace CanSettingsConsole.Services
             return CreateInitializeController((ControllerType)Convert.ToByte(values[1]), values);
         }
         public string Get() =>  $"{(byte)ControllerCommand.Get}|{(byte)ControllerType.None}\r";
-        public string Post(ControllerBase controller) => $"{(byte)ControllerCommand.Set}|{controller.Type}|{controller}\r";
+        public string Post(ControllerBase controller) => $"{(byte)ControllerCommand.Set}|{controller}\r";
     }
 }

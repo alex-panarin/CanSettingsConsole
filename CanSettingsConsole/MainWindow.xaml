@@ -7,8 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:view="clr-namespace:CanSettingsConsole.View"
     xmlns:vm="clr-namespace:CanSettingsConsole.ViewModel"
-    Title="MainWindow"
-    Width="800"
+    Title="AMIGO Control panel"
+    Width="900"
     Height="700"
     FontSize="18"
     WindowStartupLocation="CenterScreen"
@@ -96,12 +96,24 @@
             </StackPanel>
         </Border>
         <ContentControl Grid.Row="2" Content="{Binding ConnectionViewModel}" />
-        <TextBlock
-            Grid.Row="3"
-            Margin="1"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            Text="{Binding ConnectionInfo}"
-            TextAlignment="Left" />
+        <DockPanel Grid.Row="3">
+            <TextBlock
+                Margin="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                DockPanel.Dock="Left"
+                Text="{Binding ConnectionInfo}"
+                TextAlignment="Left"
+                TextWrapping="Wrap" />
+            <TextBlock
+                x:Name="ErrorMessage"
+                Margin="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                DockPanel.Dock="Right"
+                Text="{Binding ErrorMessage}"
+                TextAlignment="Left"
+                TextWrapping="Wrap" />
+        </DockPanel>
     </Grid>
 </Window>

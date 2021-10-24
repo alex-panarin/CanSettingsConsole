@@ -46,7 +46,7 @@ namespace CanSettingsConsole.UI.Controls
             new FrameworkPropertyMetadata(default(string), AddressChanged)
             {
                 BindsTwoWayByDefault = true
-            });
+            });//, value => value?.ToString()?.Split('.').Length == 4);
 
         private static void AddressChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
@@ -65,13 +65,11 @@ namespace CanSettingsConsole.UI.Controls
                 ipTextBox._suppressAddressUpdate = false;
             }
         }
-        
         public string Address
         {
             get { return (string)GetValue(AddressProperty); }
             set { SetValue(AddressProperty, value); }
         }
-
         private void UIElement_OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (DigitKeys.Contains(e.Key))
@@ -103,7 +101,6 @@ namespace CanSettingsConsole.UI.Controls
                 e.Handled = !AreOtherAllowedKeysPressed(e);
             }
         }
-
         private bool AreOtherAllowedKeysPressed(KeyEventArgs e)
         {
             return e.Key == Key.C && ((e.KeyboardDevice.Modifiers & ModifierKeys.Control) != 0) ||
@@ -112,7 +109,6 @@ namespace CanSettingsConsole.UI.Controls
                    e.Key == Key.X && ((e.KeyboardDevice.Modifiers & ModifierKeys.Control) != 0) ||
                    OtherAllowedKeys.Contains(e.Key);
         }
-
         private void HandleDigitPress()
         {
             if (FocusManager.GetFocusedElement(this) is TextBox currentTextBox 
@@ -123,7 +119,6 @@ namespace CanSettingsConsole.UI.Controls
                 MoveFocusToNextSegment(currentTextBox);
             }
         }
-
         private bool ShouldCancelDigitKeyPress()
         {
             return FocusManager.GetFocusedElement(this) is TextBox currentTextBox 
@@ -131,7 +126,6 @@ namespace CanSettingsConsole.UI.Controls
                    && currentTextBox.CaretIndex == 3 
                    && currentTextBox.SelectedText.Length == 0;
         }
-
         private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             if (!_suppressAddressUpdate)
@@ -147,13 +141,11 @@ namespace CanSettingsConsole.UI.Controls
                 MoveFocusToNextSegment(currentTextBox);
             }
         }
-
         private bool ShouldCancelBackwardKeyPress()
         {
             return FocusManager.GetFocusedElement(this) is TextBox currentTextBox 
                    && currentTextBox.CaretIndex == 0;
         }
-
         private void HandleBackspaceKeyPress()
         {
             if (FocusManager.GetFocusedElement(this) is TextBox currentTextBox 
@@ -163,7 +155,6 @@ namespace CanSettingsConsole.UI.Controls
                 MoveFocusToPreviousSegment(currentTextBox);
             }
         }
-
         private void HandleBackwardKeyPress()
         {
             if (FocusManager.GetFocusedElement(this) is TextBox currentTextBox
@@ -172,13 +163,11 @@ namespace CanSettingsConsole.UI.Controls
                 MoveFocusToPreviousSegment(currentTextBox);
             }
         }
-
         private bool ShouldCancelForwardKeyPress()
         {
             return FocusManager.GetFocusedElement(this) is TextBox currentTextBox
                    && currentTextBox.CaretIndex == 3;
         }
-
         private void HandleForwardKeyPress()
         {
             if (FocusManager.GetFocusedElement(this) is TextBox currentTextBox 
@@ -187,7 +176,6 @@ namespace CanSettingsConsole.UI.Controls
                 MoveFocusToNextSegment(currentTextBox);
             }
         }
-
         private void HandlePeriodKeyPress()
         {
             if (FocusManager.GetFocusedElement(this) is TextBox currentTextBox 
@@ -197,7 +185,6 @@ namespace CanSettingsConsole.UI.Controls
                 MoveFocusToNextSegment(currentTextBox);
             }
         }
-
         private void MoveFocusToPreviousSegment(TextBox currentTextBox)
         {
             if (!ReferenceEquals(currentTextBox, FirstSegment))
@@ -208,7 +195,6 @@ namespace CanSettingsConsole.UI.Controls
                 _segments[previousSegmentIndex].CaretIndex = _segments[previousSegmentIndex].Text.Length;
             }
         }
-
         private void MoveFocusToNextSegment(TextBox currentTextBox)
         {
             if (!ReferenceEquals(currentTextBox, LastSegment))
@@ -217,7 +203,6 @@ namespace CanSettingsConsole.UI.Controls
                 currentTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
             }
         }
-
         private void DataObject_OnPasting(object sender, DataObjectPastingEventArgs e)
         {
             if (!e.SourceDataObject.GetDataPresent(DataFormats.UnicodeText, true))
