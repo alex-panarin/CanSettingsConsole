@@ -4,6 +4,12 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>connect.ico</ApplicationIcon>
+    <StartupObject>CanSettingsConsole.App</StartupObject>
+    <Copyright>© 2021 AlexLB aka Alex Panarin</Copyright>
+    <Authors>AlexLB</Authors>
+    <PackageIcon></PackageIcon>
+    <PackageIconUrl />
   </PropertyGroup>
 
   <ItemGroup>
