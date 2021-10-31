@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO.Ports;
+using System.Windows;
 using System.Windows.Documents;
 using CanSettingsConsole.Models;
 using CanSettingsConsole.Services;
@@ -58,6 +59,7 @@ namespace CanSettingsConsole.ViewModel
                 return;
 
             _serialPortService.Post(Model, _controller.Model);
+            MessageBox.Show("Изменения успешно сохранены");
             //_serialPortService.Read(Model, x =>
             //{
             //    if(x == null) return;

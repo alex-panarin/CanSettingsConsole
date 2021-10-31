@@ -32,7 +32,8 @@ namespace CanSettingsConsole.Services
             if (!port.IsOpen)
             {
                 port.Handshake = Handshake.None;
-                port.ReadTimeout = 2000;
+                //port.DtrEnable = true;
+                port.ReadTimeout = 4000;
                 port.Open();
             }
 

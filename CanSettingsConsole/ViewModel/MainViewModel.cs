@@ -67,6 +67,7 @@ namespace CanSettingsConsole.ViewModel
             catch (Exception x)
             {
                 ErrorMessage = x.Message;
+                ConnectionViewModel = null;
             }
         }
 
@@ -74,6 +75,8 @@ namespace CanSettingsConsole.ViewModel
         {
             ConnectionViewModel?.Close();
             ConnectionInfo = outOfConnection;
+            ConnectionViewModel = null;
+            ErrorMessage = null;
         }
 
         public string ErrorMessage
