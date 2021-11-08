@@ -13,7 +13,7 @@ namespace CanSettingsConsole.Wrappers
         public string IpAddress
         {
             get => new IPAddress(Model.Code).ToString(); 
-            set => SetValue(BitConverter.ToUInt32(IPAddress .Parse(value).GetAddressBytes()), "Code");
+            set => SetValue(BitConverter.ToUInt32(IPAddress.Parse(value).GetAddressBytes()), "Code");
         }
 
         public string Dns

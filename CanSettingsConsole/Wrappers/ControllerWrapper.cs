@@ -32,7 +32,7 @@ namespace CanSettingsConsole.Wrappers
         }
 
         [Required]
-        [Range(1, 2147483647, ErrorMessage = "Значение должно быть в диапазоне от 1 до 2147483647")]
+        [Range(1, 32768, ErrorMessage = "Значение должно быть в диапазоне от 1 до 32768")]
         public uint Code
         {
             get => Model.Code;
