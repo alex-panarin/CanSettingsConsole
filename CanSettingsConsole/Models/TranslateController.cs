@@ -6,8 +6,6 @@ namespace CanSettingsConsole.Models
 {
     public class TranslateController : ControllerBase
     {
-        public override string Name => "Контроллер транслятор";
-        public byte Level { get; set; }
-
+        public override string Name => "Контроллер 2 уровня";
     }
 }

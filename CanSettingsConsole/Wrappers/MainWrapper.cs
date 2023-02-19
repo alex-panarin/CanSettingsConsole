@@ -12,8 +12,8 @@ namespace CanSettingsConsole.Wrappers
 
         public string IpAddress
         {
-            get => new IPAddress(Model.Code).ToString(); 
-            set => SetValue(BitConverter.ToUInt32(IPAddress.Parse(value).GetAddressBytes()), "Code");
+            get => new IPAddress(((MainController)Model).IpAddress).ToString(); 
+            set => SetValue(BitConverter.ToUInt32(IPAddress.Parse(value).GetAddressBytes()));
         }
 
         public string Dns

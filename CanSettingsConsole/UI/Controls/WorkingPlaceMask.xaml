@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="CanSettingsConsole.UI.Controls.WorkingPlaceMask"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CanSettingsConsole.UI.Controls"
+             mc:Ignorable="d" 
+             d:DesignWidth="200" Height="52"
+             FocusManager.IsFocusScope="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2" />
+            <ColumnDefinition Width="*" />
+            
+        </Grid.ColumnDefinitions>
+
+        <StackPanel VerticalAlignment="Center" Grid.Column="0">
+            <CheckBox IsChecked="True" HorizontalAlignment="Center" 
+                      CommandParameter="{Binding ElementName=One}" x:Name="One" 
+                      />
+            <TextBlock Text="1" HorizontalAlignment="Center"/>
+        </StackPanel>
+
+        <StackPanel VerticalAlignment="Center" Grid.Column="2">
+            <CheckBox IsChecked="True"  HorizontalAlignment="Center"
+                      CommandParameter="{Binding ElementName=Two}" x:Name="Two"/>
+            <TextBlock Text="2" HorizontalAlignment="Center" ></TextBlock>
+        </StackPanel>
+
+        <StackPanel VerticalAlignment="Center" Grid.Column="4">
+            <CheckBox IsChecked="True"  HorizontalAlignment="Center"
+                      CommandParameter="{Binding ElementName=Three}" x:Name="Three"/>
+            <TextBlock Text="3" HorizontalAlignment="Center" ></TextBlock>
+        </StackPanel>
+
+        <StackPanel VerticalAlignment="Center" Grid.Column="6">
+            <CheckBox IsChecked="True"  HorizontalAlignment="Center"
+                      CommandParameter="{Binding ElementName=Four}" x:Name="Four"/>
+            <TextBlock Text="4" HorizontalAlignment="Center" ></TextBlock>
+        </StackPanel>
+
+        <StackPanel VerticalAlignment="Center" Grid.Column="8">
+            <CheckBox IsChecked="True"  HorizontalAlignment="Center"
+                      CommandParameter="{Binding ElementName=Five}" x:Name="Five"/>
+            <TextBlock Text="5" HorizontalAlignment="Center" ></TextBlock>
+        </StackPanel>
+
+        <StackPanel VerticalAlignment="Center" Grid.Column="10">
+            <CheckBox IsChecked="True"  HorizontalAlignment="Center"
+                      CommandParameter="{Binding ElementName=Six}" x:Name="Six"/>
+            <TextBlock Text="6" HorizontalAlignment="Center" ></TextBlock>
+        </StackPanel>
+
+        <StackPanel VerticalAlignment="Center" Grid.Column="12">
+            <CheckBox IsChecked="True"  HorizontalAlignment="Center"
+                      CommandParameter="{Binding ElementName=Seven}" x:Name="Seven"/>
+            <TextBlock Text="7" HorizontalAlignment="Center" ></TextBlock>
+        </StackPanel>
+
+        <StackPanel VerticalAlignment="Center" Grid.Column="14">
+            <CheckBox IsChecked="True"  HorizontalAlignment="Center"
+                      CommandParameter="{Binding ElementName=Eight}" x:Name="Eight"/>
+            <TextBlock Text="8" HorizontalAlignment="Center" ></TextBlock>
+        </StackPanel>
+    </Grid>
+</UserControl>

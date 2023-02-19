@@ -24,15 +24,23 @@ namespace CanSettingsConsole.Wrappers
         public ControllerStatus Status => (ControllerStatus)Model.Status;
 
         [Required]
-        [Range(1, 254, ErrorMessage = "Значение должно быть в диапазоне от 1 до 254")]
-        public byte Sector
+        [Range(1, 120, ErrorMessage = "Значение должно быть в диапазоне от 1 до 120")]
+        public byte ParentId
         {
-            get => Model.Sector;
-            set { Model.Sector = value; OnPropertyChanged();}
+            get => Model.ParentId;
+            set { Model.ParentId = value; OnPropertyChanged();}
         }
 
         [Required]
-        [Range(1, 32768, ErrorMessage = "Значение должно быть в диапазоне от 1 до 32768")]
+        [Range(1, 120, ErrorMessage = "Значение должно быть в диапазоне от 1 до 120")]
+        public byte Id
+        {
+            get => Model.Id;
+            set { Model.Id = value; OnPropertyChanged(); }
+        }
+
+        [Required]
+        [Range(1, 2045, ErrorMessage = "Значение должно быть в диапазоне от 1 до 2045")]
         public uint Code
         {
             get => Model.Code;

@@ -35,6 +35,11 @@
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="Margin" Value="1" />
         </Style>
+        <Style x:Key="WorkingPlaceStyle" TargetType="{x:Type Controls:WorkingPlaceMask}">
+            <Setter Property="Width" Value="200" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="1" />
+        </Style>
         <ControlTemplate x:Key="ValidationTemplate">
             <DockPanel>
                 <TextBlock
@@ -81,11 +86,11 @@
                         <ColumnDefinition Width="10" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Участок производства:" />
+                    <TextBlock Text="Контроллер 2 уровня:" />
                     <TextBox
                         Grid.Column="2"
                         Style="{StaticResource TextErrorStyle}"
-                        Text="{Binding Sector, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        Text="{Binding ParentId, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                         Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
                 </Grid>
                 <Grid>
@@ -94,7 +99,20 @@
                         <ColumnDefinition Width="10" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Код:" />
+                    <TextBlock Text="Порядковый номер:" />
+                    <TextBox
+                        Grid.Column="2"
+                        Style="{StaticResource TextErrorStyle}"
+                        Text="{Binding Id, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Код номенклатуры:" />
                     <TextBox
                         Grid.Column="2"
                         Style="{StaticResource TextErrorStyle}"
@@ -107,12 +125,24 @@
                         <ColumnDefinition Width="10" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Яркость:" />
+                    <TextBlock Text="Яркость дисплея:" />
                     <TextBox
                         Grid.Column="2"
                         Style="{StaticResource TextErrorStyle}"
                         Text="{Binding Brightness, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                         Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Рабочие места:" />
+                    <Controls:WorkingPlaceMask 
+                         Style="{StaticResource WorkingPlaceStyle}"
+                         Grid.Column="2" 
+                         Mask="{Binding Mask, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
             </StackPanel>
         </DataTemplate>
@@ -146,11 +176,11 @@
                         <ColumnDefinition Width="10" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Участок производства:" />
+                    <TextBlock Text="Порядковый номер:" />
                     <TextBox
                         Grid.Column="2"
                         Style="{StaticResource TextErrorStyle}"
-                        Text="{Binding Sector, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        Text="{Binding Id, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                         Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
                 </Grid>
                 <Grid>
@@ -202,7 +232,7 @@
                     <TextBox
                         Grid.Column="2"
                         Style="{StaticResource TextErrorStyle}"
-                        Text="{Binding Sector, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        Text="{Binding Id, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                         Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
                 </Grid>
                 <Grid>
