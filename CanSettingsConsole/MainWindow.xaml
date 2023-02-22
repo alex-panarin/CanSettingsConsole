@@ -1,9 +1,8 @@
 ﻿<Window
     x:Class="CanSettingsConsole.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:CanSettingsConsole"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:view="clr-namespace:CanSettingsConsole.View"
     xmlns:vm="clr-namespace:CanSettingsConsole.ViewModel"
@@ -14,7 +13,7 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.Resources>
-        <vm:VMSerialPorts x:Key="Ports" />
+        <!--vm:VMSerialPorts x:Key="Ports" />-->
         <DataTemplate DataType="{x:Type vm:ConnectionViewModel}">
             <view:ConnectionView />
         </DataTemplate>
@@ -54,15 +53,15 @@
                 Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"
                 Orientation="Horizontal">
                 <TextBlock
-                    Margin="1"
+                    Margin="1, 0"
                     VerticalAlignment="Center"
                     Text="Выбор соединения: " />
                 <ComboBox
                     Name="SelectedPorts"
                     Width="300"
-                    Margin="1"
+                    Margin="1, 1"
                     Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"
-                    ItemsSource="{StaticResource Ports}">
+                    ItemsSource="{Binding Ports}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
@@ -75,7 +74,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <Button
-                    Margin="1"
+                    Margin="1, 1"
                     VerticalAlignment="Stretch"
                     VerticalContentAlignment="Center"
                     Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"
@@ -84,7 +83,7 @@
                     CommandParameter="{Binding ElementName=SelectedPorts, Path=SelectedItem}"
                     Content="Открыть" />
                 <Button
-                    Margin="1"
+                    Margin="1, 1"
                     VerticalAlignment="Stretch"
                     VerticalContentAlignment="Center"
                     Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"
@@ -92,6 +91,15 @@
                     Command="{Binding CloseCommand}"
                     CommandParameter="{Binding ElementName=SelectedPorts, Path=SelectedItem}"
                     Content="Закрыть" />
+                <Button
+                    Margin="2, 1"
+                    VerticalAlignment="Stretch"
+                    VerticalContentAlignment="Center"
+                    Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"
+                    BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"
+                    Command="{Binding ReloadCommand}"
+                    CommandParameter="{Binding ElementName=SelectedPorts, Path=SelectedItem}"
+                    Content="Обновить" />
 
             </StackPanel>
         </Border>

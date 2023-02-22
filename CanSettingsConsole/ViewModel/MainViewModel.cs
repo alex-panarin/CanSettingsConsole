@@ -12,15 +12,35 @@ namespace CanSettingsConsole.ViewModel
         private string _connectionInfo;
         private IConnectionViewModel _connection;
         private string _errorMessage;
+        private VMSerialPorts _ports;
 
         public MainViewModel()
         {
             ConnectCommand = new WindowCommand(ConnectToPort);
             CloseCommand = new WindowCommand(CloseConnection);
+            ReloadCommand = new WindowCommand(ReloadConnection, new Func<bool>(CanExecute));
             ConnectionInfo = outOfConnection;
+            Ports = new VMSerialPorts();
+        }
+
+        private bool CanExecute()
+        {
+            return ConnectionInfo != successConnection;
+        }
+
+        public VMSerialPorts Ports
+        {
+            get => _ports; 
+            set
+            {
+                _ports = value;
+                OnPropertyChanged();
+            }
         }
         public ICommand ConnectCommand { get; }
         public ICommand CloseCommand { get; }
+
+        public ICommand ReloadCommand { get; }
 
         public string ConnectionInfo
         {
@@ -77,6 +97,11 @@ namespace CanSettingsConsole.ViewModel
             ConnectionInfo = outOfConnection;
             ConnectionViewModel = null;
             ErrorMessage = null;
+        }
+
+        private void ReloadConnection(object param)
+        {
+            Ports = new VMSerialPorts();
         }
 
         public string ErrorMessage

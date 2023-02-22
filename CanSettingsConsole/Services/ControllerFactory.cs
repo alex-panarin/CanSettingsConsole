@@ -55,7 +55,8 @@ namespace CanSettingsConsole.Services
                     wrapper = new TranslateWrapper(new TranslateController());
                     break;
                 case ControllerType.Display:
-                    wrapper = new DisplayWrapper(new DisplayController());
+                    wrapper = new DisplayWrapper(new DisplayController(), 
+                        new ControllerRepository());
                     break;
             }
             

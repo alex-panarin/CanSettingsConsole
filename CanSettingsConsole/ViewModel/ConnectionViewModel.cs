@@ -60,12 +60,6 @@ namespace CanSettingsConsole.ViewModel
 
             _serialPortService.Post(Model, _controller.Model);
             MessageBox.Show("Изменения успешно сохранены");
-            //_serialPortService.Read(Model, x =>
-            //{
-            //    if(x == null) return;
-
-            //    Debug.WriteLine(x);
-            //});
         }
 
         public bool HasError

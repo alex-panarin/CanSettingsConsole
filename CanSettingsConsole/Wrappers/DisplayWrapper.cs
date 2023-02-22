@@ -1,18 +1,46 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
+﻿using CanSettingsConsole.Core;
 using CanSettingsConsole.Models;
+using CanSettingsConsole.Services;
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.Design;
+using System.Linq;
+using System.Text.Json;
+using System.Windows.Input;
 
 namespace CanSettingsConsole.Wrappers
 {
     public class DisplayWrapper : ControllerWrapper
     {
-        public DisplayWrapper(ControllerBase model) : base(model)
+        private readonly IControllerRepository _repository;
+        
+        public DisplayWrapper(ControllerBase model, 
+            IControllerRepository repository) 
+            : base(model)
         {
-            
+            SaveTemplateCommand = new WindowCommand(OnSaveTemplate);
+            LoadTemplateCommand = new WindowCommand(OnLoadTemplate);
+            _repository = repository;
+        }
+
+        private void OnLoadTemplate(object obj)
+        {
+            var display =  _repository.GetTemplateData();
+            if (display == null)
+                return;
+
+            Mask = ConvertMask(display.Mask);
+            Brightness = display.Brightness;
+            Code = display.Code;
+            ParentId = display.ParentId;
+            Id = display.Id;
+        }
+
+        private void OnSaveTemplate(object obj)
+        {
+            _repository.SaveTemplateData(((DisplayController)this.Model));
         }
 
         [Required]
@@ -23,9 +51,7 @@ namespace CanSettingsConsole.Wrappers
         {
             get
             {
-                var bits = new BitArray(new[] { ((DisplayController)Model).Mask });
-                return string.Join('.', bits.Cast<bool>().Select(bit => bit ? 1 : 0));
-                //string.Join('.', new BitArray(((DisplayController)Model).Mask).OfType<byte>());
+                return ConvertMask(((DisplayController)Model).Mask);
             }
             set 
             {
@@ -44,6 +70,16 @@ namespace CanSettingsConsole.Wrappers
 
                 SetValue(b); 
             } 
+        }
+
+        public ICommand SaveTemplateCommand { get; }
+
+        public ICommand LoadTemplateCommand { get; }
+
+        private string ConvertMask(byte mask)
+        {
+            var bits = new BitArray(new[] {mask});
+            return string.Join('.', bits.Cast<bool>().Select(bit => bit ? 1 : 0));
         }
     }
 }
