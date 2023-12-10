@@ -25,12 +25,19 @@
                         NotifyOnValidationError=True, 
                         ValidatesOnDataErrors=True,
                         UpdateSourceTrigger=PropertyChanged }"
-                     Width="{Binding ElementName=TextValueBox,
+                        Width="{Binding ElementName=TextValueBox,
                         Path=ActualWidth,
                         Converter={StaticResource PercentageConverter},
-                        ConverterParameter=80}"/>
+                        ConverterParameter=70}"/>
             <Button Style="{StaticResource ButtonStyle}" Content="-" Name="_ButtonDn" Width="20" Click="Button_Click"/>
             <Button Style="{StaticResource ButtonStyle}" Content="+" Name="_ButtonUp" Width="20" Click="Button_Click"/>
+            <CheckBox x:Name="_IsChecked" VerticalAlignment="Center" Margin="5,0,5,0" 
+                      IsChecked="{Binding ElementName=TextValueBox, 
+                        Path=IsChecked,
+                        UpdateSourceTrigger=PropertyChanged,
+                        Mode=TwoWay}" 
+                      Height="16"
+                      Width="16" />
         </StackPanel>
     </Grid>
 </UserControl>

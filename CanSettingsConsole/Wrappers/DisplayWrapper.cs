@@ -1,6 +1,7 @@
 ﻿using CanSettingsConsole.Core;
 using CanSettingsConsole.Models;
 using CanSettingsConsole.Services;
+using CanSettingsConsole2.Services;
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -15,14 +16,26 @@ namespace CanSettingsConsole.Wrappers
     public class DisplayWrapper : ControllerWrapper
     {
         private readonly IControllerRepository _repository;
-        
+        private readonly IMessageContainer _messageContainer;
+
         public DisplayWrapper(ControllerBase model, 
-            IControllerRepository repository) 
+            IControllerRepository repository,
+            IMessageContainer  messageContainer) 
             : base(model)
         {
             SaveTemplateCommand = new WindowCommand(OnSaveTemplate);
             LoadTemplateCommand = new WindowCommand(OnLoadTemplate);
+            SaveBatchCommand = new WindowCommand(OnSaveBatch);
+            PlusGroupCommand  = new WindowCommand(OnPlusGroup);
+            MinusGroupCommand = new WindowCommand(OnMinusGroup);
             _repository = repository;
+            _messageContainer = messageContainer;
+        }
+
+        private void OnSaveBatch(object obj)
+        {
+            _repository.SaveTemplateData(((DisplayController)this.Model), false);
+            _messageContainer.InvokeMessage(MessageContainer.SAVE_MESSAGE);
         }
 
         private void OnLoadTemplate(object obj)
@@ -40,7 +53,7 @@ namespace CanSettingsConsole.Wrappers
 
         private void OnSaveTemplate(object obj)
         {
-            _repository.SaveTemplateData(((DisplayController)this.Model));
+            _repository.SaveTemplateData(((DisplayController)this.Model), true);
         }
 
         [Required]
@@ -71,15 +84,23 @@ namespace CanSettingsConsole.Wrappers
                 SetValue(b); 
             } 
         }
-
         public ICommand SaveTemplateCommand { get; }
-
         public ICommand LoadTemplateCommand { get; }
-
         private string ConvertMask(byte mask)
         {
             var bits = new BitArray(new[] {mask});
             return string.Join('.', bits.Cast<bool>().Select(bit => bit ? 1 : 0));
+        }
+        public ICommand SaveBatchCommand { get; }
+        public ICommand PlusGroupCommand { get; }
+        private void OnPlusGroup(object obj)
+        {
+            _messageContainer.InvokeMessage(MessageContainer.PLUS_MESSAGE);
+        }
+        public ICommand MinusGroupCommand { get; }
+        private void OnMinusGroup(object obj)
+        {
+            _messageContainer.InvokeMessage(MessageContainer.MINUS_MESSAGE);
         }
     }
 }

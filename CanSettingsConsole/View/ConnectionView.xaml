@@ -68,117 +68,184 @@
             </DockPanel>
         </ControlTemplate>
         <DataTemplate x:Key="DisplayViewTemplate">
-            <StackPanel>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200" />
-                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="480" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Наименование:" />
-                    <TextBlock
-                        Grid.Column="2"
-                        Margin="1,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="{Binding Name}" />
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Статус:" />
-                    <TextBlock Grid.Column="2" Text="{Binding Status, Converter={StaticResource EnumConverter}}" />
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Контроллер 2 уровня:" />
-                    <ctrl2:ValueTextBox
-                        Grid.Column="2"
-                        Style="{StaticResource Text2ErrorStyle}"
-                        TextValue="{Binding ParentId, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                        Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Порядковый номер:" />
-                    <ctrl2:ValueTextBox
-                        Grid.Column="2"
-                        Style="{StaticResource Text2ErrorStyle}"
-                        TextValue="{Binding Id, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                        Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Код номенклатуры:" />
-                    <ctrl2:ValueTextBox
-                        Grid.Column="2"
-                        Style="{StaticResource Text2ErrorStyle}"
-                        TextValue="{Binding Code, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                        Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Яркость дисплея:" />
-                    <TextBox
-                        Grid.Column="2"
-                        Style="{StaticResource TextErrorStyle}"
-                        Text="{Binding Brightness, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                        Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Рабочие места:" />
-                    <Controls:WorkingPlaceMask 
-                         Style="{StaticResource WorkingPlaceStyle}"
-                         Grid.Column="2" 
-                         Mask="{Binding Mask, UpdateSourceTrigger=PropertyChanged}"/>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="5"/>
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Button
-                        Grid.Column="0"
-                        Margin="5, 0, 0, 0"
-                        Height="36"
-                        VerticalAlignment="Bottom"
-                        Command="{Binding SaveTemplateCommand}"
-                        Content="Сохранить данные"
-                        Style="{StaticResource SaveButton}" />
-                    <Button
-                        Grid.Column="2"
-                        Margin="0, 0, 5, 0"
-                        Height="36"
-                        VerticalAlignment="Bottom"
-                        Command="{Binding LoadTemplateCommand}"
-                        Content="Загрузить данные"
-                        Style="{StaticResource SaveButton}" />
-                </Grid>
-            </StackPanel>
+                    <Grid.RowDefinitions >
+                        <RowDefinition Height="300"/>
+                        <RowDefinition Height="300"/>
+                    </Grid.RowDefinitions>
+                <StackPanel Grid.Column="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="46"/>
+                            <RowDefinition Height="36"/>
+                        </Grid.RowDefinitions>
+                        <Button Grid.ColumnSpan="2" Grid.Row="1" 
+                                Content="Загрузить в контроллер"
+                                Command="{Binding SaveBatchCommand}"
+                                Height="36" Margin="5, 5">
+                            <Button.InputBindings>
+                                <KeyBinding Key="Return" Command="{Binding SaveBatchCommand}"/>
+                            </Button.InputBindings>
+                        </Button>
+                        <Button Grid.Column="0" Grid.Row="2" Content="-"
+                            Height="26" Margin="5, 5"
+                                 Command="{Binding MinusGroupCommand}"/>
+                        <Button Grid.Column="1" Grid.Row="2" Content="+"
+                            Height="26" Margin="5, 5"
+                                 Command="{Binding PlusGroupCommand}"/>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Grid.Column="0">
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="270" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Наименование:" />
+                        <TextBlock
+                            Grid.Column="2"
+                            Margin="1,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding Name}" />
+                    </Grid>
+                    <Grid Grid.Column="0" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="270" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Статус:" />
+                        <TextBlock Grid.Column="2" Text="{Binding Status, Converter={StaticResource EnumConverter}}" />
+                    </Grid>
+                    <Grid Grid.Column="0" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="270" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Контроллер 2 уровня:" />
+                        <ctrl2:ValueTextBox
+                            Grid.Column="2"
+                            Style="{StaticResource Text2ErrorStyle}"
+                            TextValue="{Binding ParentId, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                            Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                    </Grid>
+                    <Grid Grid.Column="0" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="270" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Порядковый номер:" />
+                        <ctrl2:ValueTextBox
+                            Grid.Column="2"
+                            Style="{StaticResource Text2ErrorStyle}"
+                            TextValue="{Binding Id, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                            Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                    </Grid>
+                    <Grid Grid.Column="0" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="270" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Код номенклатуры:" />
+                        <ctrl2:ValueTextBox
+                            Grid.Column="2"
+                            Style="{StaticResource Text2ErrorStyle}"
+                            TextValue="{Binding Code, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                            Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                    </Grid>
+                    <Grid Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="270" />
+                            
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Яркость дисплея:" />
+                        <TextBox
+                            Grid.Column="2"
+                            Style="{StaticResource TextErrorStyle}"
+                            Text="{Binding Brightness, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                            Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
+                    </Grid>
+                    <Grid Grid.Column="0" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="270" />
+                           
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Рабочие места:" />
+                        <Controls:WorkingPlaceMask 
+                             Style="{StaticResource WorkingPlaceStyle}"
+                             Grid.Column="2" 
+                             Mask="{Binding Mask, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                    <Grid Grid.ColumnSpan="2" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            Grid.Column="0"
+                            Margin="5, 0, 0, 0"
+                            Height="36"
+                            VerticalAlignment="Bottom"
+                            Command="{Binding SaveTemplateCommand}"
+                            Content="Сохранить настройки"
+                            Style="{StaticResource SaveButton}" />
+                        <Button
+                            Grid.Column="2"
+                            Margin="0, 0, 5, 0"
+                            Height="36"
+                            VerticalAlignment="Bottom"
+                            Command="{Binding LoadTemplateCommand}"
+                            Content="Восстановить настройки"
+                            Style="{StaticResource SaveButton}" />
+                    </Grid>
+                </StackPanel>
+            </Grid>
         </DataTemplate>
         <DataTemplate x:Key="TranslateViewTemplate">
             <StackPanel>
@@ -374,9 +441,6 @@
                 Command="{Binding SaveCommand}"
                 Content="Сохранить изменения"
                 Style="{StaticResource SaveButton}">
-                <Button.InputBindings>
-                    <KeyBinding Key="Return" Command="{Binding SaveCommand}"/>
-                </Button.InputBindings>
             </Button>
         </Grid>
     </Border>

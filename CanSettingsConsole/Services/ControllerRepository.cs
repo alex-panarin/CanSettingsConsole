@@ -23,7 +23,7 @@ namespace CanSettingsConsole.Services
             });
         }
 
-        public void SaveTemplateData(DisplayController model)
+        public void SaveTemplateData(DisplayController model, bool showMessage)
         {
             try
             {
@@ -35,7 +35,8 @@ namespace CanSettingsConsole.Services
 
                 var path = Path.Combine(Environment.CurrentDirectory, fileName);
                 File.WriteAllText(path, data);
-                MessageBox.Show("Шаблон данных успешно сохранен");
+                if(showMessage)
+                    MessageBox.Show("Шаблон данных успешно сохранен");
             }
             catch (Exception x)
             {

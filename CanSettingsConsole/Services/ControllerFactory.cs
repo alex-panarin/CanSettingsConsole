@@ -1,5 +1,6 @@
 ﻿using CanSettingsConsole.Models;
 using CanSettingsConsole.Wrappers;
+using CanSettingsConsole2.Services;
 using System;
 using System.ComponentModel;
 using System.Text;
@@ -58,7 +59,8 @@ namespace CanSettingsConsole.Services
                     break;
                 case ControllerType.Display:
                     wrapper = new DisplayWrapper(new DisplayController(), 
-                        new ControllerRepository());
+                        new ControllerRepository(),
+                        MessageContainer.Instance);
                     break;
             }
             

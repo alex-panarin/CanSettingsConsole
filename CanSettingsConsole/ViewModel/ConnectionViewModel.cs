@@ -7,19 +7,44 @@ using System.Windows.Documents;
 using CanSettingsConsole.Models;
 using CanSettingsConsole.Services;
 using CanSettingsConsole.Wrappers;
+using CanSettingsConsole2.Services;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace CanSettingsConsole.ViewModel
 {
     public class ConnectionViewModel : ViewModelWrapper<SerialPort>, IConnectionViewModel
     {
         private readonly SerialPortService _serialPortService;
+        private readonly MessageContainer _messageContainer;
         private ControllerWrapper _controller;
+        private bool _showMessage = true;
         
         public ConnectionViewModel(SerialPort model)
             : base(model)
         {
             _serialPortService = new SerialPortService();
+            _messageContainer = MessageContainer.Instance;
+            _messageContainer.RegisterMessage(MessageContainer.SAVE_MESSAGE, OnSaveBatch);
         }
+
+        private void OnSaveBatch(object obj)
+        {
+            if (_controller == null) return;
+            var oldValue = JsonSerializer.Serialize(_controller.Model);
+            _serialPortService.Post(Model, _controller.Model);
+            Open();
+            var newValue = JsonSerializer.Serialize(_controller.Model);
+            if(! oldValue.Equals(newValue, StringComparison.CurrentCultureIgnoreCase))
+            {
+                MessageBox.Show("Ошибка сохранения данных");
+            }
+            else
+            {
+                MessageBox.Show("Изменения успешно сохранены");
+            }
+        }
+
         public void Close()
         {
             _serialPortService.Close(Model);

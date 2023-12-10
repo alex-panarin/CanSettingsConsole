@@ -5,6 +5,6 @@ namespace CanSettingsConsole.Services
     public interface IControllerRepository
     {
         DisplayController GetTemplateData();
-        void SaveTemplateData(DisplayController model);
+        void SaveTemplateData(DisplayController model, bool showMwssage);
     }
 }
