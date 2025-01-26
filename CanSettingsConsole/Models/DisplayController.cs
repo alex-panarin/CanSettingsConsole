@@ -14,7 +14,7 @@ namespace CanSettingsConsole.Models
         public override void Initialize(string[] array)
         {
             base.Initialize(array);
-            if (array.Length < 6) return;
+            if (array.Length < 8) return;
 
             Brightness = Convert.ToByte(array[6]);
             Mask = Convert.ToByte(array[7]);

@@ -4,11 +4,8 @@ using CanSettingsConsole.Services;
 using CanSettingsConsole2.Services;
 using System;
 using System.Collections;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.Design;
 using System.Linq;
-using System.Text.Json;
 using System.Windows.Input;
 
 namespace CanSettingsConsole.Wrappers

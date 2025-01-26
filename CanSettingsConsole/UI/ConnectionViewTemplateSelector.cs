@@ -1,11 +1,6 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
+﻿using CanSettingsConsole.Wrappers;
 using System.Windows;
 using System.Windows.Controls;
-using CanSettingsConsole.Wrappers;
 
 namespace CanSettingsConsole.UI
 {

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CanSettingsConsole2.UI.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="801.244"
+             d:DesignHeight="93" d:DesignWidth="759.244"
              Name="TextValueBox"
              FocusManager.IsFocusScope="True">
     <UserControl.Resources>

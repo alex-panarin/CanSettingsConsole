@@ -1,15 +1,11 @@
 ﻿using CanSettingsConsole.Core;
-using System;
-using System.Diagnostics;
-using System.IO.Ports;
-using System.Windows;
-using System.Windows.Documents;
-using CanSettingsConsole.Models;
 using CanSettingsConsole.Services;
 using CanSettingsConsole.Wrappers;
 using CanSettingsConsole2.Services;
-using System.Text.Json.Serialization;
+using System;
+using System.IO.Ports;
 using System.Text.Json;
+using System.Windows;
 
 namespace CanSettingsConsole.ViewModel
 {
@@ -18,7 +14,7 @@ namespace CanSettingsConsole.ViewModel
         private readonly SerialPortService _serialPortService;
         private readonly MessageContainer _messageContainer;
         private ControllerWrapper _controller;
-        private bool _showMessage = true;
+        //private bool _showMessage = true;
         
         public ConnectionViewModel(SerialPort model)
             : base(model)
@@ -76,7 +72,7 @@ namespace CanSettingsConsole.ViewModel
             }
         }
 
-        public WindowCommand SaveCommand => new WindowCommand(OnSave);
+        public WindowCommand SaveCommand => new(OnSave);
 
         private void OnSave(object obj)
         {

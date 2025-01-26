@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CanSettingsConsole.ViewModel
+﻿namespace CanSettingsConsole.ViewModel
 {
     public interface IConnectionViewModel
     {

@@ -297,6 +297,22 @@
                         Text="{Binding Code, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                         Validation.ErrorTemplate="{StaticResource ErrorTemplate}" />
                 </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="1"    
+                        VerticalAlignment="Center"
+                        Text="Дубликат" />
+                    <CheckBox
+                        Grid.Column="2"
+                        Margin="1"
+                        VerticalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        IsChecked="{Binding IsDuplicate}" />
+                </Grid>
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="MainViewTemplate">

@@ -1,10 +1,6 @@
-﻿using CanSettingsConsole.Core;
-using CanSettingsConsole2.Services;
-using System;
-using System.Reflection;
+﻿using CanSettingsConsole2.Services;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace CanSettingsConsole2.UI.Controls
 {
@@ -13,8 +9,7 @@ namespace CanSettingsConsole2.UI.Controls
     /// </summary>
     public partial class ValueTextBox : UserControl
     {
-        private bool _suppressMaskUpdate = false;
-        private MessageContainer _messageContainer;
+        private readonly MessageContainer _messageContainer;
         public static readonly DependencyProperty TextValueProperty = DependencyProperty.Register(
            "TextValue", typeof(string), typeof(ValueTextBox),
            new FrameworkPropertyMetadata(default(string), TextValueChange)
@@ -24,13 +19,10 @@ namespace CanSettingsConsole2.UI.Controls
 
         private static void TextValueChange(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            var valueTextBox = dependencyObject as ValueTextBox;
-            var text = e.NewValue as string;
-            if (text != null && valueTextBox != null)
+            if (e.NewValue is string text 
+                && dependencyObject is ValueTextBox valueTextBox)
             {
-                valueTextBox._suppressMaskUpdate = true;
                 valueTextBox._Text.Text = text;
-                valueTextBox._suppressMaskUpdate = false;
             }
         }
         public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(

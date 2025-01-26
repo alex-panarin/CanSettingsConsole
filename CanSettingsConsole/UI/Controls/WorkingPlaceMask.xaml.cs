@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Xml;
 
 namespace CanSettingsConsole.UI.Controls
 {
@@ -34,10 +33,8 @@ namespace CanSettingsConsole.UI.Controls
 
         private static void MaskChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            var maskBox = dependencyObject as WorkingPlaceMask;
-            var text = e.NewValue as string;
-
-            if (text != null && maskBox != null)
+            if (e.NewValue is string text 
+                && dependencyObject is WorkingPlaceMask maskBox)
             {
                 maskBox._suppressMaskUpdate = true;
                 var i = 0;
