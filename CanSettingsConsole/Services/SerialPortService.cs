@@ -1,10 +1,8 @@
 ﻿using CanSettingsConsole.Models;
+using CanSettingsConsole.Wrappers;
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.IO.Ports;
 using System.Text;
-using CanSettingsConsole.Wrappers;
 
 namespace CanSettingsConsole.Services
 {

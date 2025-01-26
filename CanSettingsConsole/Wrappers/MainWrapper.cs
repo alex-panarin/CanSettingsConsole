@@ -1,5 +1,6 @@
 ﻿using CanSettingsConsole.Models;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 
 namespace CanSettingsConsole.Wrappers
@@ -12,8 +13,8 @@ namespace CanSettingsConsole.Wrappers
 
         public string IpAddress
         {
-            get => new IPAddress(Model.Code).ToString(); 
-            set => SetValue(BitConverter.ToUInt32(IPAddress.Parse(value).GetAddressBytes()), "Code");
+            get => new IPAddress(((MainController)Model).IpAddress).ToString(); 
+            set => SetValue(BitConverter.ToUInt32(IPAddress.Parse(value).GetAddressBytes()));
         }
 
         public string Dns
@@ -34,6 +35,13 @@ namespace CanSettingsConsole.Wrappers
             set => SetValue(BitConverter.ToUInt32(IPAddress.Parse(value).GetAddressBytes()));
         }
         public bool UseDhcp{ get => ((MainController)Model).UseDhcp; set => SetValue(value); }
-        
+
+        [Required]
+        [Range(0, 8, ErrorMessage = "Значение должно быть в диапазоне от 0 до 8")]
+        public byte Value
+        {
+            get => ((MainController) Model).Value;
+            set { ((MainController)Model).Value = value; OnPropertyChanged(); }
+        }
     }
 }

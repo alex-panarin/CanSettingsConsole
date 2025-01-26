@@ -1,5 +1,6 @@
 ﻿using CanSettingsConsole.Models;
 using CanSettingsConsole.Wrappers;
+using CanSettingsConsole2.Services;
 using System;
 using System.ComponentModel;
 using System.Text;
@@ -26,12 +27,14 @@ namespace CanSettingsConsole.Services
     
     public enum ControllerCommand : byte
     {
-        Test,
-        Status,
-        Set,
-        Get = 4,
-        None = 5,
-        Clear = 6
+        Test = 0, // Запрос Тест
+        Status = 1, // Запрос Статус
+        Set = 2, // Запрос Установка Значания
+        Clear = 3, // Запрос Сброс значения
+        Bright = 4, // Запрос Установка Яркости
+        ASK = 5, // Ответ на Статус 
+        ANS = 6, // Ответ на команды 
+        None = 7, // Команда отсутсвует
     };
     public interface IControllerFactory
     {
@@ -55,7 +58,9 @@ namespace CanSettingsConsole.Services
                     wrapper = new TranslateWrapper(new TranslateController());
                     break;
                 case ControllerType.Display:
-                    wrapper = new DisplayWrapper(new DisplayController());
+                    wrapper = new DisplayWrapper(new DisplayController(), 
+                        new ControllerRepository(),
+                        MessageContainer.Instance);
                     break;
             }
             
@@ -68,7 +73,7 @@ namespace CanSettingsConsole.Services
             var values = result.Split('|');
             return CreateInitializeController((ControllerType)Convert.ToByte(values[1]), values);
         }
-        public string Get() =>  $"{(byte)ControllerCommand.Get}|{(byte)ControllerType.None}\r";
+        public string Get() =>  $"{(byte)ControllerCommand.ASK}|{(byte)ControllerType.None}\r";
         public string Post(ControllerBase controller) => $"{(byte)ControllerCommand.Set}|{controller}\r";
     }
 }

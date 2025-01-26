@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="CanSettingsConsole2.UI.Controls.ValueTextBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CanSettingsConsole2.UI.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="93" d:DesignWidth="759.244"
+             Name="TextValueBox"
+             FocusManager.IsFocusScope="True">
+    <UserControl.Resources>
+        <local:PercentageConverter x:Key="PercentageConverter"/>
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="BorderThickness" Value="0.5"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <StackPanel Orientation="Horizontal" >
+            <TextBox x:Name="_Text" 
+                     Text="{Binding ElementName=TextValueBox, 
+                        Path=TextValue, 
+                        Mode=TwoWay, 
+                        NotifyOnValidationError=True, 
+                        ValidatesOnDataErrors=True,
+                        UpdateSourceTrigger=PropertyChanged }"
+                        Width="{Binding ElementName=TextValueBox,
+                        Path=ActualWidth,
+                        Converter={StaticResource PercentageConverter},
+                        ConverterParameter=70}"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="-" Name="_ButtonDn" Width="20" Click="Button_Click"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="+" Name="_ButtonUp" Width="20" Click="Button_Click"/>
+            <CheckBox x:Name="_IsChecked" VerticalAlignment="Center" Margin="5,0,5,0" 
+                      IsChecked="{Binding ElementName=TextValueBox, 
+                        Path=IsChecked,
+                        UpdateSourceTrigger=PropertyChanged,
+                        Mode=TwoWay}" 
+                      Height="16"
+                      Width="16" />
+        </StackPanel>
+    </Grid>
+</UserControl>
